@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const CATEGORY_API_BASE_URL = "http://localhost:8080/categories";
+const CATEGORY_API_BASE_URL = "http://localhost:8080/api/auth/categories";
 
 class CategoryService {
 
-    getCategory(){
+    getAllCategory(){
         return axios.get(CATEGORY_API_BASE_URL);
     }
 

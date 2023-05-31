@@ -10,7 +10,6 @@ export const Footer = () => (
             <div className="copywrite-text mt-30">
               <p>
                 Team graduation
-                <i className="fa fa-heart-o" aria-hidden="true" />
               </p>
               <p>
                 SV {" "}

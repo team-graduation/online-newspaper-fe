@@ -1,83 +1,183 @@
-// import React, { Component } from 'react'
-// import CategoryService from '../services/EmployeeService'
+import React, { useContext } from "react";
+import { Header } from "../../common/header/index";
+import { Footer } from "../../common/footer/index";
+import { CategoriesContext } from "../../../context/categories.context";
+import { useNavigate } from "react-router-dom";
+import "./table.css";
 
-// class ListCategory extends Component {
-//     constructor(props) {
-//         super(props)
 
-//         this.state = {
-//                 employees: []
-//         }
-//         this.addEmployee = this.addEmployee.bind(this);
-//         this.editEmployee = this.editEmployee.bind(this);
-//         this.deleteEmployee = this.deleteEmployee.bind(this);
-//     }
+const ListCategory = () => {
+    const navigate = useNavigate();
+    const { categories, setCategories } = useContext(CategoriesContext);
 
-//     deleteEmployee(id){
-//         EmployeeService.deleteEmployee(id).then( res => {
-//             this.setState({employees: this.state.employees.filter(employee => employee.id !== id)});
-//         });
-//     }
-//     viewEmployee(id){
-//         this.props.history.push(`/view-employee/${id}`);
-//     }
-//     editEmployee(id){
-//         this.props.history.push(`/add-employee/${id}`);
-//     }
+    return (
+        <div>
+            <Header />
+            <div style={{ marginTop: '100px' }} className="row">
 
-//     componentDidMount(){
-//         EmployeeService.getEmployees().then((res) => {
-//             this.setState({ employees: res.data});
-//         });
-//     }
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" />
+                <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+                <div className="container">
+                    <div className="table-wrapper">
+                        <div className="table-title">
+                            <div className="row">
+                                <div className="col-sm-6">
+                                    <h2>Manage <b>Categories</b></h2>
+                                </div>
+                                <div className="col-sm-6">
+                                    <a href="#addEmployeeModal" className="btn btn-success" data-toggle="modal"><i className="material-icons"></i> <span>Add New Employee</span></a>
+                                    <a href="#deleteEmployeeModal" className="btn btn-danger" data-toggle="modal"><i className="material-icons"></i> <span>Delete</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <table className="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span className="custom-checkbox">
+                                            <input type="checkbox" id="selectAll" />
+                                            <label htmlFor="selectAll" />
+                                        </span>
+                                    </th>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {setCategories.map((categories) => (
+                                <tr>
+                                    <td>
+                                        <span className="custom-checkbox">
+                                            <input type="checkbox" id="checkbox1" name="options[]" defaultValue={1} />
+                                            <label htmlFor="checkbox1" />
+                                        </span>
+                                    </td>
+                                    <td>{categories.categoryId}</td>
+                                    <td>{categories.categoryTitle}</td>
+                                    <td>{categories.categoryDescription}</td>
+                                    <td>
+                                        <a href="#editEmployeeModal" className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit"></i></a>
+                                        <a href="#deleteEmployeeModal" className="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"></i></a>
+                                    </td>
+                                </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <div className="clearfix">
+                            <div className="hint-text">Showing <b>5</b> out of <b>100</b> entries</div>
+                            <ul className="pagination">
+                                <li className="page-item disabled"><a href="#">Previous</a></li>
+                                <li className="page-item"><a href="#" className="page-link">1</a></li>
+                                <li className="page-item"><a href="#" className="page-link">2</a></li>
+                                <li className="page-item active"><a href="#" className="page-link">3</a></li>
+                                <li className="page-item"><a href="#" className="page-link">4</a></li>
+                                <li className="page-item"><a href="#" className="page-link">5</a></li>
+                                <li className="page-item"><a href="#" className="page-link">Next</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {/* Edit Modal HTML */}
+                <div id="addEmployeeModal" className="modal fade">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <form>
+                                <div className="modal-header">
+                                    <h4 className="modal-title">Add Employee</h4>
+                                    <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div className="modal-body">
+                                    <div className="form-group">
+                                        <label>Name</label>
+                                        <input type="text" className="form-control" required />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Email</label>
+                                        <input type="email" className="form-control" required />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Address</label>
+                                        <textarea className="form-control" required defaultValue={""} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Phone</label>
+                                        <input type="text" className="form-control" required />
+                                    </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <input type="button" className="btn btn-default" data-dismiss="modal" defaultValue="Cancel" />
+                                    <input type="submit" className="btn btn-success" defaultValue="Add" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {/* Edit Modal HTML */}
+                <div id="editEmployeeModal" className="modal fade">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <form>
+                                <div className="modal-header">
+                                    <h4 className="modal-title">Edit Employee</h4>
+                                    <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div className="modal-body">
+                                    <div className="form-group">
+                                        <label>Name</label>
+                                        <input type="text" className="form-control" required />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Email</label>
+                                        <input type="email" className="form-control" required />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Address</label>
+                                        <textarea className="form-control" required defaultValue={""} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Phone</label>
+                                        <input type="text" className="form-control" required />
+                                    </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <input type="button" className="btn btn-default" data-dismiss="modal" defaultValue="Cancel" />
+                                    <input type="submit" className="btn btn-info" defaultValue="Save" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {/* Delete Modal HTML */}
+                <div id="deleteEmployeeModal" className="modal fade">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <form>
+                                <div className="modal-header">
+                                    <h4 className="modal-title">Delete Employee</h4>
+                                    <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                </div>
+                                <div className="modal-body">
+                                    <p>Are you sure you want to delete these Records?</p>
+                                    <p className="text-warning"><small>This action cannot be undone.</small></p>
+                                </div>
+                                <div className="modal-footer">
+                                    <input type="button" className="btn btn-default" data-dismiss="modal" defaultValue="Cancel" />
+                                    <input type="submit" className="btn btn-danger" defaultValue="Delete" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
-//     addEmployee(){
-//         this.props.history.push('/add-employee/_add');
-//     }
+            </div>
+            <Footer />
 
-//     render() {
-//         return (
-//             <div>
-//                  <h2 className="text-center">Employees List</h2>
-//                  <div className = "row">
-//                     <button className="btn btn-primary" onClick={this.addEmployee}> Add Employee</button>
-//                  </div>
-//                  <br></br>
-//                  <div className = "row">
-//                         <table className = "table table-striped table-bordered">
+        </div>
+    )
+};
 
-//                             <thead>
-//                                 <tr>
-//                                     <th> Employee First Name</th>
-//                                     <th> Employee Last Name</th>
-//                                     <th> Employee Email Id</th>
-//                                     <th> Actions</th>
-//                                 </tr>
-//                             </thead>
-//                             <tbody>
-//                                 {
-//                                     this.state.employees.map(
-//                                         employee => 
-//                                         <tr key = {employee.id}>
-//                                              <td> { employee.firstName} </td>   
-//                                              <td> {employee.lastName}</td>
-//                                              <td> {employee.emailId}</td>
-//                                              <td>
-//                                                  <button onClick={ () => this.editEmployee(employee.id)} className="btn btn-info">Update </button>
-//                                                  <button style={{marginLeft: "10px"}} onClick={ () => this.deleteEmployee(employee.id)} className="btn btn-danger">Delete </button>
-//                                                  <button style={{marginLeft: "10px"}} onClick={ () => this.viewEmployee(employee.id)} className="btn btn-info">View </button>
-//                                              </td>
-//                                         </tr>
-//                                     )
-//                                 }
-//                             </tbody>
-//                         </table>
-
-//                  </div>
-
-//             </div>
-//         )
-//     }
-// }
-
-// export default ListCategory
+export default ListCategory

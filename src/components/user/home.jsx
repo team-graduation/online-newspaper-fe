@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
+// import React, { useState, useEffect } from 'react';
 import LOGO from "../../img/blog-img/b1.jpg";
 import { ArticlesContext } from "../../context/articles.context";
+import { UserContext } from "../../context/users.context";
 import { categories } from "../../config";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../common/header";
@@ -8,9 +10,12 @@ import { Footer } from "../common/footer";
 import { Sidebar } from "../common/sidebar";
 
 const Home = () => {
+
   const navigate = useNavigate();
   const { highlights, latestArticles, mostPopularArticles, setCurrentArticle } =
     useContext(ArticlesContext);
+  const { user } = useContext(UserContext);
+  console.log(mostPopularArticles);
   const slideItems = [
     {
       id: 1,
@@ -35,14 +40,12 @@ const Home = () => {
   ];
   const onArticleClickHandler = (article) => (event) => {
     setCurrentArticle(article);
-    navigate(`/blog/${article.id}`);
+    navigate(`/blog/${article.newsId}`);
   };
   return (
     <div>
       <Header />
-      {/* ********** Hero Area Start ********** */}
       <div className="hero-area">
-        {/* Hero Slides Area */}
         <div className="hero-slides owl-carousel">
           {/* Single Slide */}
           <div
@@ -265,7 +268,7 @@ const Home = () => {
                 </div>
                 {mostPopularArticles.map((article) => (
                   <div
-                    key={article.id}
+                    key={article.newsId}
                     className="single-blog-post wow fadeInUpBig"
                     data-wow-delay="0.2s"
                     onClick={onArticleClickHandler(article)}
@@ -275,31 +278,31 @@ const Home = () => {
                       <img src={article.backgroundImage} alt="" />
                       {/* Category */}
                       <div className="post-cta">
-                        <a href="#">{article.category}</a>
+                        <a href="#">{article.category?.categoryTitle}</a>
                       </div>
                       {/* Video Button */}
-                      <a
+                      {/* <a
                         href="https://www.youtube.com/watch?v=IhnqEwFSJRg"
                         className="video-btn"
                       >
                         <i className="fa fa-play" />
-                      </a>
+                      </a> */}
                     </div>
                     {/* Post Content */}
                     <div className="post-content">
                       <a href="#" className="headline">
-                        <h5>{article.headline}</h5>
+                        <h5>{article.title}</h5>
                       </a>
-                      <p>{article.summary}</p>
+                      <p>{article.summarization || ''}</p>
                       {/* Post Meta */}
                       <div className="post-meta">
                         <p>
                           <a href="#" className="post-author">
-                            {article.author}
+                            {article?.user?.username || ''}
                           </a>{" "}
                           on{" "}
                           <a href="#" className="post-date">
-                            {article.publicDate}
+                            {(new Date(article.addedDate)).toLocaleString('en-GB', { timeZone: 'UTC' })}
                           </a>
                         </p>
                       </div>

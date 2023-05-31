@@ -8,6 +8,13 @@ const dropdownItems = [
   "Contact",
 ];
 
+const dropdownItemsAdmin = [
+  "Home",
+  "Users",
+  "Categories",
+  "News",
+];
+
 export const Header = () => {
   const navigate = useNavigate();
   return (
