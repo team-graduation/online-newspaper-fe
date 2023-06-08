@@ -3,33 +3,65 @@ import axios from 'axios';
 const NEWS_API_BASE_URL = "http://localhost:8080/api/auth";
 
 class NewsService {
-
-    getAllNews(){
+    constructor() {
+        this.token = JSON.parse(localStorage.getItem('user'))?.token;
+    }
+    getAllNews() {
         return axios.get(NEWS_API_BASE_URL + '/news');
-        // axios({
-        //     method: 'post',
-        //     url: '/user/12345',
-        //     data: {
-        //       firstName: 'Fred',
-        //       lastName: 'Flintstone'
-        //     }
-        //   });
     }
 
-    getNewsById(newsId){
+    getNewsToday() {
+        return axios.get(NEWS_API_BASE_URL + '/news/today');
+    }
+
+    getNewsById(newsId) {
         return axios.get(NEWS_API_BASE_URL + '/news/' + newsId);
     }
 
-    createNews(userId, news){
-        return axios.post(NEWS_API_BASE_URL + '/user/' + userId + '/news', news);
+    getNewsByCategory(categoryTitle) {
+        return axios.get(NEWS_API_BASE_URL + '/news/category/' + categoryTitle);
     }
 
-    updateNews(newsId, news){
-        return axios.put(NEWS_API_BASE_URL + '/news/' + newsId, news);
+    getNewsByUser(userId) {
+        return axios.get(NEWS_API_BASE_URL + '/user/' + userId + '/news')
     }
 
-    deleteNews(newsId){
-        return axios.delete(NEWS_API_BASE_URL + '/news/' + newsId);
+    getNewsRecommend() {
+        return axios.get(NEWS_API_BASE_URL + '/news/recommend')
+    }
+
+    createNews(news) {
+        return axios({
+            method: 'post',
+            url: NEWS_API_BASE_URL + '/news/add',
+            data: news,
+            headers: {
+                Authorization: 'Bearer ' + this.token,
+                "Content-Type": "multipart/form-data",
+            }
+        })
+    }
+
+    updateNews(newsId, news) {
+        return axios({
+            method: 'put',
+            url: NEWS_API_BASE_URL + '/news/' + newsId,
+            data: news,
+            headers: {
+                Authorization: 'Bearer ' + this.token,
+                "Content-Type": "multipart/form-data",
+            }
+        })
+    }
+
+    deleteNews(newsId) {
+        return axios({
+            method: 'delete',
+            url: NEWS_API_BASE_URL + '/news/' + newsId,
+            headers: {
+                Authorization: 'Bearer ' + this.token,
+            }
+        });
     }
 }
 

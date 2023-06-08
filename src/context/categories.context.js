@@ -1,22 +1,21 @@
 import { createContext, useEffect, useState } from "react";
 import CategoryService from "../services/CategoryService";
 
-const CategoriesContext = createContext("");
+const CategoryContext = createContext("");
 
-const CategoriesContextProvider = ({ children }) => {
+const CategoryContextProvider = ({ children }) => {
 
-  const [categories, setCategories] = useState([]);
-
-  const categoriesAPI = CategoryService;
+  const [allCategories, setAllCategiries] = useState([]);
 
   const getAllCategory = async () => {
     try {
       const response = await CategoryService.getAllCategory();
-      setCategories(response.data);
+      setAllCategiries(response.data);
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
-    
+
   }
 
   useEffect(() => {
@@ -24,15 +23,15 @@ const CategoriesContextProvider = ({ children }) => {
   }, [])
 
   return (
-    <CategoriesContext.Provider
+    <CategoryContext.Provider
       value={{
-        categories,
-        setCategories,
+        allCategories,
+        setAllCategiries
       }}
     >
       {children}
-    </CategoriesContext.Provider>
+    </CategoryContext.Provider>
   );
 };
 
-export { CategoriesContext, CategoriesContextProvider };
+export { CategoryContext, CategoryContextProvider };

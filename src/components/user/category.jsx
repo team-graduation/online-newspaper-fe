@@ -6,9 +6,22 @@ import { Footer } from "../common/footer";
 import { Sidebar } from "../common/sidebar";
 
 const Category = () => {
-  const { filteredArticles = [] } = useContext(ArticlesContext);
+  const { filteredArticles = [], getNewsByCategory, setFilteredArticles } = useContext(ArticlesContext);
   const params = useParams();
-  const { category } = params;
+  // const { category } = params;
+
+
+  useEffect(() => {
+    const { category } = params;
+    // article id hien. tai. trung voi article id tren duong dan
+    if (filteredArticles.title === category) return;
+
+    // TODO: goi. api lay article
+    const response = getNewsByCategory("tech");
+    setFilteredArticles(response.data);
+  }, []);
+
+
   return (
     <div>
       <Header />
@@ -30,23 +43,23 @@ const Category = () => {
                       <div className="single-blog-post post-style-4 d-flex align-items-center">
                         {/* Post Thumbnail */}
                         <div className="post-thumbnail">
-                          <img src={article.backgroundImage} alt="" />
+                          <img src={article.thumbnail} alt="" />
                         </div>
                         {/* Post Content */}
                         <div className="post-content">
                           <a href="#" className="headline">
-                            <h5>{article.headline}</h5>
+                            <h5>{article.title}</h5>
                           </a>
-                          <p>{article.summary}</p>
+                          <p>{article.summarization}</p>
                           {/* Post Meta */}
                           <div className="post-meta">
                             <p>
                               <a href="#" className="post-author">
-                                {article.author}
+                                {article.user.username}
                               </a>{" "}
                               on{" "}
                               <a href="#" className="post-date">
-                                {article.publicDate}
+                                {article.addedDate}
                               </a>
                             </p>
                           </div>

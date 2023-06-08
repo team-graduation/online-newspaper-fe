@@ -16,6 +16,7 @@ const Login = () => {
   const onAuthClickHandler = async (credential) => {
     try {
       const response = await Service.login(credential);
+      localStorage.setItem('user', JSON.stringify(response.data));
       setUser(response.data);
       navigate('/');
     } catch (error) {

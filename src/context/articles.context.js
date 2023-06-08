@@ -6,79 +6,88 @@ const ArticlesContext = createContext("");
 const ArticlesContextProvider = ({ children }) => {
 
   const [articles, setArticles] = useState([]);
+  const [allArticles, setAllArticles] = useState([]);
   const [currentArticle, setCurrentArticle] = useState({});
-  const [topStories, setTopStories] = useState([]);
-  const [highlights, setHighlights] = useState([]);
+  const [recommendArticles, setRecommendArticles] = useState([]);
   const [latestArticles, setLatestArticles] = useState([]);
-  const [mostPopularArticles, setMostPopularArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
 
-  const newsAPI = NewsService;
 
   const getAllNews = async () => {
     try {
       const response = await NewsService.getAllNews();
-      setMostPopularArticles(response.data);
+      setAllArticles(response.data);
     } catch (error) {
       console.log(error);
     }
-    
+  }
+
+  const getNewsByCategory = async (categoryId) => {
+    try {
+      const response = await NewsService.getNewsByCategory(categoryId);
+      setFilteredArticles(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getNewsById = async (categoryId) => {
+    try {
+      const response = await NewsService.getNewsById(categoryId);
+      setCurrentArticle(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getNewsRecommend = async () => {
+    try {
+      const response = await NewsService.getNewsRecommend();
+      setRecommendArticles(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getNewsToday = async () => {
+    try {
+      const response = await NewsService.getNewsToday();
+      setLatestArticles(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const createNews = async (news) => {
+    try {
+      const response = await NewsService.createNews(news);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const updateNews = async (newsId, news) => {
+    try {
+      const response = await NewsService.updateNews(newsId, news);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const deleteNews = async (newsId) => {
+    try {
+      const response = await NewsService.deleteNews(newsId);
+      getAllNews();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
     getAllNews();
+    getNewsRecommend();
+    getNewsToday();
   }, [])
-
-  // useEffect(() => {
-  //   const mostPopularArticles = [...Array(2).keys()].map((id) => ({
-  //     id,
-  //     headline: `${id}. Newspaper Headline`,
-  //     author: `DiemHoang-${id}`,
-  //     publicDate: new Date().toLocaleDateString(),
-  //     summary:
-  //       "Newspaper summary...",
-  //     category: "business",
-  //     backgroundImage: `/img/blog-img/b2${id}.jpg`,
-  //   }));
-  //   setMostPopularArticles(mostPopularArticles);
-  // }, []);
-
-  useEffect(() => {
-    //TODO: thay the bang function goi api fetch top story
-    // const data = await catApi.getAllCategory();
-    const topStories = [...Array(5).keys()].map((id) => ({
-      id,
-      headline: `${id}. Newspaper Headline`,
-      author: `DiemHoang-${id}`,
-      publicDate: new Date().toLocaleDateString(),
-      backgroundImage: `/img/blog-img/b1${id}.jpg`,
-    }));
-    setTopStories(topStories);
-  }, []);
-
-  useEffect(() => {
-    const highlights = [...Array(10).keys()].map((id) => ({
-      id,
-      headline: `${id}. Newspaper Headline`,
-      author: `DiemHoang-${id}`,
-      publicDate: new Date().toLocaleDateString(),
-      backgroundImage: `/img/blog-img/b${id}.jpg`,
-    }));
-    setHighlights(highlights);
-  }, []);
-
-  useEffect(() => {
-    const latestArticles = [...Array(5).keys()].map((id) => ({
-      id,
-      headline: `${id}. Newspaper Headline`,
-      author: `DiemHoang-${id}`,
-      publicDate: new Date().toLocaleDateString(),
-      backgroundImage: `/img/blog-img/b3${id}.jpg`,
-      summary:
-        "Newspaper summary...",
-    }));
-    setLatestArticles(latestArticles);
-  }, []);
 
   return (
     <ArticlesContext.Provider
@@ -87,12 +96,18 @@ const ArticlesContextProvider = ({ children }) => {
         setArticles,
         currentArticle,
         setCurrentArticle,
-        topStories,
-        highlights,
+        recommendArticles,
+        setRecommendArticles,
         latestArticles,
-        mostPopularArticles,
         filteredArticles,
         setFilteredArticles,
+        allArticles,
+        setAllArticles,
+        deleteNews,
+        getNewsById,
+        getNewsByCategory,
+        createNews,
+        updateNews
       }}
     >
       {children}

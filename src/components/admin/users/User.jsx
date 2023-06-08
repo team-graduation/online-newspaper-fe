@@ -1,14 +1,15 @@
 import React, { useContext } from "react";
 import { Header } from "../../common/header/index";
 import { Footer } from "../../common/footer/index";
-import { CategoriesContext } from "../../../context/categories.context";
 import { useNavigate } from "react-router-dom";
-import "./table.css";
+import "../../admin/table.css";
+import { UserContext } from "context/users.context";
 
 
-const ListCategory = () => {
+const User = () => {
     const navigate = useNavigate();
-    const { categories, setCategories } = useContext(CategoriesContext);
+    const { allUser = [] } = useContext(UserContext);
+    console.log(allUser);
 
     return (
         <div>
@@ -24,7 +25,7 @@ const ListCategory = () => {
                         <div className="table-title">
                             <div className="row">
                                 <div className="col-sm-6">
-                                    <h2>Manage <b>Categories</b></h2>
+                                    <h2>Manage <b>Users</b></h2>
                                 </div>
                                 <div className="col-sm-6">
                                     <a href="#addEmployeeModal" className="btn btn-success" data-toggle="modal"><i className="material-icons"></i> <span>Add New Employee</span></a>
@@ -42,28 +43,30 @@ const ListCategory = () => {
                                         </span>
                                     </th>
                                     <th>ID</th>
-                                    <th>Title</th>
-                                    <th>Description</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>About</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {setCategories.map((categories) => (
-                                <tr>
-                                    <td>
-                                        <span className="custom-checkbox">
-                                            <input type="checkbox" id="checkbox1" name="options[]" defaultValue={1} />
-                                            <label htmlFor="checkbox1" />
-                                        </span>
-                                    </td>
-                                    <td>{categories.categoryId}</td>
-                                    <td>{categories.categoryTitle}</td>
-                                    <td>{categories.categoryDescription}</td>
-                                    <td>
-                                        <a href="#editEmployeeModal" className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit"></i></a>
-                                        <a href="#deleteEmployeeModal" className="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"></i></a>
-                                    </td>
-                                </tr>
+                                {allUser.map((user) => (
+                                    <tr>
+                                        <td>
+                                            <span className="custom-checkbox">
+                                                <input type="checkbox" id="checkbox1" name="options[]" defaultValue={1} />
+                                                <label htmlFor="checkbox1" />
+                                            </span>
+                                        </td>
+                                        <td>{user.id}</td>
+                                        <td>{user.username}</td>
+                                        <td>{user.email}</td>
+                                        <td>{user.about}</td>
+                                        <td>
+                                            <a href="#editEmployeeModal" className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit"></i></a>
+                                            <a href="#deleteEmployeeModal" className="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"></i></a>
+                                        </td>
+                                    </tr>
                                 ))}
                             </tbody>
                         </table>
@@ -180,4 +183,4 @@ const ListCategory = () => {
     )
 };
 
-export default ListCategory
+export default User

@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 // import React, { useState, useEffect } from 'react';
-import LOGO from "../../img/blog-img/b1.jpg";
 import { ArticlesContext } from "../../context/articles.context";
 import { UserContext } from "../../context/users.context";
 import { categories } from "../../config";
@@ -8,14 +7,15 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "../common/header";
 import { Footer } from "../common/footer";
 import { Sidebar } from "../common/sidebar";
+import { CategoryContext } from "../../context/categories.context";
 
 const Home = () => {
 
   const navigate = useNavigate();
-  const { highlights, latestArticles, mostPopularArticles, setCurrentArticle } =
-    useContext(ArticlesContext);
+  const { latestArticles, setCurrentArticle, allArticles } = useContext(ArticlesContext);
+  const { allCategories = [] } = useContext(CategoryContext);
   const { user } = useContext(UserContext);
-  console.log(mostPopularArticles);
+
   const slideItems = [
     {
       id: 1,
@@ -38,10 +38,17 @@ const Home = () => {
         "Newspaper",
     },
   ];
+
   const onArticleClickHandler = (article) => (event) => {
     setCurrentArticle(article);
-    navigate(`/blog/${article.newsId}`);
+    navigate(`/news/${article.newsId}`);
   };
+
+  // const onCategoryClickHandler = (category) => (event) => {
+  //   setNewsByCategory(category);
+  //   navigate(`/category/${category.}`)
+  // };
+
   return (
     <div>
       <Header />
@@ -105,10 +112,11 @@ const Home = () => {
                         aria-controls="world-tab-1"
                         aria-selected="true"
                       >
-                        All
+                        ALL
                       </a>
                     </li>
-                    {categories.map((category) => (
+                    {/* {categories.map((category) => ( */}
+                    {allCategories.map((category) => (
                       <li className="nav-item">
                         <a
                           className="nav-link capitalize"
@@ -117,9 +125,10 @@ const Home = () => {
                           role="tab"
                           aria-controls="world-tab-2"
                           aria-selected="false"
-                          onClick={(e) => navigate(`/category/${category}`)}
+                          // onClick={onArticleClickHandler(article)}
+                          // onClick={(e) => navigate(`/category/${category}`)}
                         >
-                          {category}
+                          {category.categoryTitle}
                         </a>
                       </li>
                     ))}
@@ -137,79 +146,40 @@ const Home = () => {
                             className="world-catagory-slider owl-carousel wow fadeInUpBig"
                             data-wow-delay="0.1s"
                           >
-                            {[0, 1, 2, 3].map(function (post) {
-                              return (
-                                <div className="single-blog-post">
-                                  {/* Post Thumbnail */}
-                                  <div className="post-thumbnail">
-                                    <img src="/img/blog-img/b1.jpg" alt="" />
-                                    {/* Catagory */}
-                                    <div className="post-cta">
-                                      <a href="#">travel</a>
-                                    </div>
-                                  </div>
-                                  {/* Post Content */}
-                                  <div className="post-content">
-                                    <a href="#" className="headline">
-                                      <h5>
-                                        Newspaper
-                                      </h5>
-                                    </a>
-                                    <p>
-                                      abc
-                                    </p>
-                                    {/* Post Meta */}
-                                    <div className="post-meta">
-                                      <p>
-                                        <a href="#" className="post-author">
-                                          DiemHoang
-                                        </a>{" "}
-                                        on{" "}
-                                        <a href="#" className="post-date">
-                                          May 19, 2023 at 9:48 am
-                                        </a>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              );
-                            })}
+                           
                           </div>
                         </div>
                         <div className="col-12 col-md-6">
-                          {highlights.map(function (post) {
-                            return (
-                              <div
-                                key={post.id}
-                                className="single-blog-post post-style-2 d-flex align-items-center wow fadeInUpBig"
-                                data-wow-delay="0.2s"
-                                onClick={onArticleClickHandler(post)}
-                              >
-                                {/* Post Thumbnail */}
-                                <div className="post-thumbnail">
-                                  <img src={post.backgroundImage} alt="" />
-                                </div>
-                                {/* Post Content */}
-                                <div className="post-content">
-                                  <a href="#" className="headline">
-                                    <h5>{post.headline}</h5>
-                                  </a>
-                                  {/* Post Meta */}
-                                  <div className="post-meta">
-                                    <p>
-                                      <a href="#" className="post-author">
-                                        {post.author}
-                                      </a>{" "}
-                                      on{" "}
-                                      <a href="#" className="post-date">
-                                        {post.publicDate}
-                                      </a>
-                                    </p>
-                                  </div>
+                          {allArticles.map((article) => (
+                            <div
+                              key={article.id}
+                              className="single-blog-post post-style-2 d-flex align-items-center wow fadeInUpBig"
+                              data-wow-delay="0.2s"
+                              onClick={onArticleClickHandler(article)}
+                            >
+                              <div className="post-thumbnail">
+                                <img src={article.thumbnail} alt="" />
+                              </div>
+
+                              <div className="post-content">
+                                <a href="#" className="headline">
+                                  <h5>{article.title}</h5>
+                                </a>
+
+                                <div className="post-meta">
+                                  <p>
+                                    <a href="#" className="post-author">
+                                      {/* {article.user.username} */}
+                                    </a>{" "}
+                                    on{" "}
+                                    <a href="#" className="post-date">
+                                      {article.addedDate}
+                                    </a>
+                                  </p>
                                 </div>
                               </div>
-                            );
-                          })}
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -223,7 +193,7 @@ const Home = () => {
             <div className="row">
               <div className="col-12 col-lg-8">
                 <div className="title">
-                  <h5>Latest Articles</h5>
+                  <h5>Latest News</h5>
                 </div>
                 {/* Single Blog Post */}
                 {latestArticles.map((article) => (
@@ -236,25 +206,25 @@ const Home = () => {
                     {/* Post Thumbnail */}
                     <div className="post-thumbnail">
                       <img
-                        src={`/img/blog-img/b1${article.id + 7}.jpg`}
+                        src={article.thumbnail}
                         alt=""
                       />
                     </div>
                     {/* Post Content */}
                     <div className="post-content">
                       <a href="#" className="headline">
-                        <h5>{article.headline}</h5>
+                        <h5>{article.title}</h5>
                       </a>
-                      <p>{article.summary}</p>
+                      <p>{article.summarization}</p>
                       {/* Post Meta */}
                       <div className="post-meta">
                         <p>
                           <a href="#" className="post-author">
-                            {article.author}
+                            {/* {article.user.username} */}
                           </a>{" "}
                           on{" "}
                           <a href="#" className="post-date">
-                            {article.publicDate}
+                            {article.addedDate}
                           </a>
                         </p>
                       </div>
@@ -266,7 +236,7 @@ const Home = () => {
                 <div className="title">
                   <h5>Most Popular Videos</h5>
                 </div>
-                {mostPopularArticles.map((article) => (
+                {allArticles.map((article) => (
                   <div
                     key={article.newsId}
                     className="single-blog-post wow fadeInUpBig"
@@ -275,7 +245,7 @@ const Home = () => {
                   >
                     {/* Post Thumbnail */}
                     <div className="post-thumbnail">
-                      <img src={article.backgroundImage} alt="" />
+                      <img src={article.thumbnail} alt="" />
                       {/* Category */}
                       <div className="post-cta">
                         <a href="#">{article.category?.categoryTitle}</a>

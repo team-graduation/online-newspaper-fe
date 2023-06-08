@@ -1,26 +1,40 @@
 import { createContext, useEffect, useState } from "react";
 import { login, register } from "../services/AuthService";
+import UserService from "services/UserService";
 
 const UserContext = createContext("");
 
 const UserContextProvider = ({ children }) => {
     const [user, setUser] = useState({});
-    async function login(credential) {
-        const data = await login(credential);
-        setUser(data);
-    }
+    const [allUser, setAllUser] = useState([]);
 
     async function register(credential) {
         const data = await register(credential);
     }
 
+    const getAllUser = async () => {
+        try {
+            const response = await UserService.getAllUser();
+            console.log(response)
+            setAllUser(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getAllUser();
+    }, [])
+
+
     return (
         <UserContext.Provider
             value={{
-                login,
                 register,
                 user,
-                setUser
+                setUser,
+                allUser,
+                setAllUser
             }}
         >
             {children}
