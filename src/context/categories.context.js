@@ -6,6 +6,8 @@ const CategoryContext = createContext("");
 const CategoryContextProvider = ({ children }) => {
 
   const [allCategories, setAllCategiries] = useState([]);
+  // const [filteredArticles, setFilteredArticles] = useState([]);
+
 
   const getAllCategory = async () => {
     try {
@@ -18,6 +20,15 @@ const CategoryContextProvider = ({ children }) => {
 
   }
 
+  // const getNewsByCategory = async (categoryId) => {
+  //   try {
+  //     const response = await NewsService.getNewsByCategory(categoryId);
+  //     setFilteredArticles(response.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
   useEffect(() => {
     getAllCategory();
   }, [])
@@ -26,7 +37,10 @@ const CategoryContextProvider = ({ children }) => {
     <CategoryContext.Provider
       value={{
         allCategories,
-        setAllCategiries
+        setAllCategiries,
+        // filteredArticles,
+        // setFilteredArticles,
+        // getNewsByCategory
       }}
     >
       {children}

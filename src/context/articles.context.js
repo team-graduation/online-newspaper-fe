@@ -11,11 +11,22 @@ const ArticlesContextProvider = ({ children }) => {
   const [recommendArticles, setRecommendArticles] = useState([]);
   const [latestArticles, setLatestArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
+  const [articlesOfUser, setArticlesOfUser] = useState([]);
+  const [allArticlesAdmin, setAllArticlesAdmin] = useState([]);
 
 
-  const getAllNews = async () => {
+  const getAllNewsByAdmin = async () => {
     try {
       const response = await NewsService.getAllNews();
+      setAllArticlesAdmin(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  const getAllNews = async () => {
+    try {
+      const response = await NewsService.getAllNewsByStatus();
       setAllArticles(response.data);
     } catch (error) {
       console.log(error);
@@ -26,6 +37,15 @@ const ArticlesContextProvider = ({ children }) => {
     try {
       const response = await NewsService.getNewsByCategory(categoryId);
       setFilteredArticles(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getNewsByUser = async () => {
+    try {
+      const response = await NewsService.getNewsByUser();
+      setArticlesOfUser(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -83,10 +103,19 @@ const ArticlesContextProvider = ({ children }) => {
     }
   }
 
+  const searchNewsByTitle = async (title) => {
+    try {
+      const response = await NewsService.searchNewsByTitle(title);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     getAllNews();
     getNewsRecommend();
     getNewsToday();
+    getAllNewsByAdmin();
   }, [])
 
   return (
@@ -101,13 +130,19 @@ const ArticlesContextProvider = ({ children }) => {
         latestArticles,
         filteredArticles,
         setFilteredArticles,
+        articlesOfUser, 
+        setArticlesOfUser,
         allArticles,
         setAllArticles,
         deleteNews,
         getNewsById,
         getNewsByCategory,
         createNews,
-        updateNews
+        updateNews,
+        getNewsByUser,
+        allArticlesAdmin, 
+        setAllArticlesAdmin,
+        getAllNewsByAdmin
       }}
     >
       {children}

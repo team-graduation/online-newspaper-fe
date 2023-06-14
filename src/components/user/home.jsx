@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-// import React, { useState, useEffect } from 'react';
+import React, { useContext, useMemo, useState } from "react";
 import { ArticlesContext } from "../../context/articles.context";
 import { UserContext } from "../../context/users.context";
 import { categories } from "../../config";
@@ -12,86 +11,26 @@ import { CategoryContext } from "../../context/categories.context";
 const Home = () => {
 
   const navigate = useNavigate();
-  const { latestArticles, setCurrentArticle, allArticles } = useContext(ArticlesContext);
+  const { latestArticles, allArticles } = useContext(ArticlesContext);
   const { allCategories = [] } = useContext(CategoryContext);
   const { user } = useContext(UserContext);
-
-  const slideItems = [
-    {
-      id: 1,
-      content:
-        "Newspaper",
-    },
-    {
-      id: 2,
-      content:
-        "Newspaper",
-    },
-    {
-      id: 3,
-      content:
-        "Newspaper",
-    },
-    {
-      id: 4,
-      content:
-        "Newspaper",
-    },
-  ];
+  const [currentCategory, setCurrentCategory] = useState('');
 
   const onArticleClickHandler = (article) => (event) => {
-    setCurrentArticle(article);
     navigate(`/news/${article.newsId}`);
   };
 
-  // const onCategoryClickHandler = (category) => (event) => {
-  //   setNewsByCategory(category);
-  //   navigate(`/category/${category.}`)
-  // };
+  const onCategoryClickHandler = (category) => (event) => {
+    setCurrentCategory(category.categoryId);
+  };
+
+  const articlesByCategory = useMemo(() => {
+    return !currentCategory ? allArticles : allArticles.filter(article => article.category?.categoryId === currentCategory)
+  },[currentCategory,allArticles]);
 
   return (
     <div>
       <Header />
-      <div className="hero-area">
-        <div className="hero-slides owl-carousel">
-          {/* Single Slide */}
-          <div
-            className="single-hero-slide bg-img background-overlay"
-            style={{ backgroundImage: "url(/img/blog-img/bg2.jpg)" }}
-          />
-          {/* Single Slide */}
-          <div
-            className="single-hero-slide bg-img background-overlay"
-            style={{ backgroundImage: "url(/img/blog-img/bg1.jpg)" }}
-          />
-        </div>
-        {/* Hero Post Slide */}
-        <div className="hero-post-area">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="hero-post-slide">
-                  {slideItems.map((item) => (
-                    <>
-                      {/* Single Slide */}
-                      <div
-                        className="single-slide d-flex align-items-center"
-                        onClick={onArticleClickHandler(item)}
-                      >
-                        <div className="post-number">
-                          <p>{item.id}</p>
-                        </div>
-                        <div className="post-title">{item.content}</div>
-                      </div>
-                    </>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* ********** Hero Area End ********** */}
       <div className="main-content-wrapper section-padding-100">
         <div className="container">
           <div className="row justify-content-center">
@@ -111,6 +50,7 @@ const Home = () => {
                         role="tab"
                         aria-controls="world-tab-1"
                         aria-selected="true"
+                        onClick={() => setCurrentCategory('')}
                       >
                         ALL
                       </a>
@@ -125,8 +65,8 @@ const Home = () => {
                           role="tab"
                           aria-controls="world-tab-2"
                           aria-selected="false"
-                          // onClick={onArticleClickHandler(article)}
-                          // onClick={(e) => navigate(`/category/${category}`)}
+                          onClick={onCategoryClickHandler(category)}
+                          // onClick={(e) => navigate(`/category/${category.categoryId}`)}
                         >
                           {category.categoryTitle}
                         </a>
@@ -141,16 +81,8 @@ const Home = () => {
                       aria-labelledby="tab1"
                     >
                       <div className="row">
-                        <div className="col-12 col-md-6">
-                          <div
-                            className="world-catagory-slider owl-carousel wow fadeInUpBig"
-                            data-wow-delay="0.1s"
-                          >
-                           
-                          </div>
-                        </div>
-                        <div className="col-12 col-md-6">
-                          {allArticles.map((article) => (
+                          {articlesByCategory.map((article) => (
+                            <div className="col-12 col-md-6 mb-30">
                             <div
                               key={article.id}
                               className="single-blog-post post-style-2 d-flex align-items-center wow fadeInUpBig"
@@ -158,7 +90,7 @@ const Home = () => {
                               onClick={onArticleClickHandler(article)}
                             >
                               <div className="post-thumbnail">
-                                <img src={article.thumbnail} alt="" />
+                                <img width={90} height={90} src={article.thumbnail} alt="" />
                               </div>
 
                               <div className="post-content">
@@ -169,18 +101,19 @@ const Home = () => {
                                 <div className="post-meta">
                                   <p>
                                     <a href="#" className="post-author">
-                                      {/* {article.user.username} */}
+                                      {article?.user?.username}
                                     </a>{" "}
                                     on{" "}
                                     <a href="#" className="post-date">
-                                      {article.addedDate}
+                                      {new Date(article.addedDate).toLocaleDateString()}
                                     </a>
                                   </p>
                                 </div>
                               </div>
                             </div>
+                            </div>
                           ))}
-                        </div>
+                        
                       </div>
                     </div>
                   </div>

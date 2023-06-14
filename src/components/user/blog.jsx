@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ArticlesContext } from "../../context/articles.context";
 import { useParams } from "react-router-dom";
 import BackgroundImage from "../../assets/img/blog-img/bg2.jpg";
@@ -10,45 +10,26 @@ import { CommentContext } from "context/comment.context";
 const Blog = () => {
   const params = useParams();
   const { currentArticle = {}, getNewsById, setCurrentArticle } = useContext(ArticlesContext);
-  const { comments = [], getCommentByNews, setComments } = useContext(CommentContext);
-
-  // useEffect(() => {
-  //   const { id: articleId } = params;
-  //   // article id hien. tai. trung voi article id tren duong dan
-  //   if (currentArticle.id === articleId) return;
-
-  //   // TODO: goi. api lay article
-  //   const response = getNewsById(articleId);
-  //   setCurrentArticle(response.data);
-
-  //   const comment = getCommentByNews(articleId);
-  //   setComments(comment.data);
-  // }, []);
-
+  const { comments = [] , getCommentByNews, setComments, createComment } = useContext(CommentContext);
+  const [content, setContent] = useState("");
 
   useEffect(() => {
     const { id: articleId } = params;
+    const response = getNewsById(articleId);
+    setCurrentArticle(response.data);
 
-    if (currentArticle.id === articleId) return;
-
-    const fetchData = async () => {
-      try {
-        const response = await getNewsById(articleId);
-        setCurrentArticle(response.data);
-
-        const comment = await getCommentByNews(articleId);
-        setComments(comment.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
+    getCommentByNews(articleId);
   }, []);
+
+  const onSubmitCommentHandler = () => {
+    let newComment = new FormData();
+    newComment.append('content', content);
+
+    createComment(newComment);
+}
 
   // const navigate = useNavigate();
   // const { articles , setCurrentArticle } = useContext(ArticlesContext);
-
 
   return (
     <div>
@@ -286,22 +267,15 @@ const Blog = () => {
                 <div class="d-flex flex-column col-md-8">
 
                   <div class="coment-bottom bg-white p-2 px-4">
-                  {/* {comments.map((comment) => ( */}
+                  {comments.map((comment) => (
                     <div
                       class="commented-section mt-2">
                       <div class="d-flex flex-row align-items-center commented-user">
-                        <h4 style={{ fontWeight: "bold" }}>ABC</h4><span class="dot mb-1"></span></div>
-                      <div class="comment-text-sm"><span>Ông Maciej Matysiak, chuyên gia an ninh từng là cựu phó giám đốc cơ quan phản gián của quân đội Ba Lan, cho biết nước lụt tràn khắp khu vực sẽ ngăn cản việc sử dụng vũ khí hạng nặng như xe tăng trong ít nhất một tháng.</span></div>
-                      <div
-                        class="reply-section">
-                        <div class="d-flex flex-row align-items-center voting-icons"><span class="dot ml-2"></span>
-                          <h6 class="ml-2 mt-1">Reply</h6>
-                        </div>
-                      </div>
+                        <h4 style={{ fontWeight: "bold" }}>{comment.user.username}</h4></div>
+                      <div class="comment-text-sm"><span>{comment.content}</span></div>
                     </div>
-                  {/* ))} */}
+  ))}
                     <div class="d-flex flex-row add-comment-section mt-4 mb-4">
-                      <img className="img-fluid img-responsive rounded-circle mr-2" src="https://i.imgur.com/qdiP4DB.jpg" width="38" />
                       <input type="text" className="form-control mr-3" placeholder="Add comment" />
                       <button class="btn btn-primary" type="button">Comment</button></div>
                   </div>

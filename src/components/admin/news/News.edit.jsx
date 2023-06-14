@@ -2,10 +2,12 @@ import { useEffect, useState, useContext } from "react";
 import Editor from "../editor/index";
 import { useParams } from "react-router-dom";
 import { ArticlesContext } from "../../../context/articles.context";
+import { useNavigate } from "react-router-dom";
 import { Header } from "../../common/header";
 import { Footer } from "../../common/footer";
 
 const NewsEdittingPage = () => {
+    const navigate = useNavigate();
     const { createNews, updateNews, currentArticle = {}, getNewsById, setCurrentArticle } = useContext(ArticlesContext);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -59,6 +61,7 @@ const NewsEdittingPage = () => {
         newArticle.append('thumbnail', thumbnail);
 
         createNews(newArticle);
+        navigate(`/user/news`);
     }
 
     const onEditNewsHandler = () => {
@@ -116,10 +119,7 @@ const NewsEdittingPage = () => {
                 </div>
                 <Editor
                     className="hero-area"
-                    // value={currentArticle?.content ||
-                    //     "Newspaper Headline"}
-                    content={content}
-                    
+                    content={content}         
                     onEditorContentChange={onEditorContentChange}
                 />
             </div>

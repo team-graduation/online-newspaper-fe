@@ -130,7 +130,6 @@ ol {
     list-style: none; }
 
 img {
-  height: auto;
   max-width: 100%; }
 
 .mt-15 {
@@ -477,6 +476,7 @@ img {
   padding-top: 30px; }
 
 .single-blog-post {
+  height: 100%;
   position: relative;
   z-index: 1;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);

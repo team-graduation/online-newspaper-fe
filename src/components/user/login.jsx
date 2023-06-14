@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/users.context";
 import svgImage from "../../assets/img/core-img/undraw_file_sync_ot38.svg";
 import Service from "../../services/AuthService";
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Login = () => {
       setUser(response.data);
       navigate('/');
     } catch (error) {
-      console.log(error);
+      toast(error.message);
     }
   };
 

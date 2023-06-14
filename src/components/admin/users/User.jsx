@@ -8,8 +8,12 @@ import { UserContext } from "context/users.context";
 
 const User = () => {
     const navigate = useNavigate();
-    const { allUser = [] } = useContext(UserContext);
+    const { allUser = [], deleteUser } = useContext(UserContext);
     console.log(allUser);
+
+    const onDeleteUserClickHandler = (user) => (event) => {
+        deleteUser(user.id)
+    }
 
     return (
         <div>
@@ -27,44 +31,29 @@ const User = () => {
                                 <div className="col-sm-6">
                                     <h2>Manage <b>Users</b></h2>
                                 </div>
-                                <div className="col-sm-6">
-                                    <a href="#addEmployeeModal" className="btn btn-success" data-toggle="modal"><i className="material-icons"></i> <span>Add New Employee</span></a>
-                                    <a href="#deleteEmployeeModal" className="btn btn-danger" data-toggle="modal"><i className="material-icons"></i> <span>Delete</span></a>
-                                </div>
                             </div>
                         </div>
                         <table className="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>
-                                        <span className="custom-checkbox">
-                                            <input type="checkbox" id="selectAll" />
-                                            <label htmlFor="selectAll" />
-                                        </span>
-                                    </th>
                                     <th>ID</th>
                                     <th>Username</th>
+                                    <th>Experience</th>
                                     <th>Email</th>
-                                    <th>About</th>
+                                    <th>Phone</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {allUser.map((user) => (
                                     <tr>
-                                        <td>
-                                            <span className="custom-checkbox">
-                                                <input type="checkbox" id="checkbox1" name="options[]" defaultValue={1} />
-                                                <label htmlFor="checkbox1" />
-                                            </span>
-                                        </td>
                                         <td>{user.id}</td>
                                         <td>{user.username}</td>
+                                        <td>{user.experience}</td>
                                         <td>{user.email}</td>
-                                        <td>{user.about}</td>
+                                        <td>{user.phone}</td>
                                         <td>
-                                            <a href="#editEmployeeModal" className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit"></i></a>
-                                            <a href="#deleteEmployeeModal" className="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"></i></a>
+                                            <a onClick={onDeleteUserClickHandler(user)} className="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"></i></a>
                                         </td>
                                     </tr>
                                 ))}
@@ -75,85 +64,14 @@ const User = () => {
                             <ul className="pagination">
                                 <li className="page-item disabled"><a href="#">Previous</a></li>
                                 <li className="page-item"><a href="#" className="page-link">1</a></li>
-                                <li className="page-item"><a href="#" className="page-link">2</a></li>
-                                <li className="page-item active"><a href="#" className="page-link">3</a></li>
-                                <li className="page-item"><a href="#" className="page-link">4</a></li>
-                                <li className="page-item"><a href="#" className="page-link">5</a></li>
+                                <li className="page-item active"><a href="#" className="page-link">2</a></li>
+                                <li className="page-item"><a href="#" className="page-link">3</a></li>
                                 <li className="page-item"><a href="#" className="page-link">Next</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                {/* Edit Modal HTML */}
-                <div id="addEmployeeModal" className="modal fade">
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <form>
-                                <div className="modal-header">
-                                    <h4 className="modal-title">Add Employee</h4>
-                                    <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                </div>
-                                <div className="modal-body">
-                                    <div className="form-group">
-                                        <label>Name</label>
-                                        <input type="text" className="form-control" required />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Email</label>
-                                        <input type="email" className="form-control" required />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Address</label>
-                                        <textarea className="form-control" required defaultValue={""} />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Phone</label>
-                                        <input type="text" className="form-control" required />
-                                    </div>
-                                </div>
-                                <div className="modal-footer">
-                                    <input type="button" className="btn btn-default" data-dismiss="modal" defaultValue="Cancel" />
-                                    <input type="submit" className="btn btn-success" defaultValue="Add" />
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                {/* Edit Modal HTML */}
-                <div id="editEmployeeModal" className="modal fade">
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <form>
-                                <div className="modal-header">
-                                    <h4 className="modal-title">Edit Employee</h4>
-                                    <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                </div>
-                                <div className="modal-body">
-                                    <div className="form-group">
-                                        <label>Name</label>
-                                        <input type="text" className="form-control" required />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Email</label>
-                                        <input type="email" className="form-control" required />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Address</label>
-                                        <textarea className="form-control" required defaultValue={""} />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Phone</label>
-                                        <input type="text" className="form-control" required />
-                                    </div>
-                                </div>
-                                <div className="modal-footer">
-                                    <input type="button" className="btn btn-default" data-dismiss="modal" defaultValue="Cancel" />
-                                    <input type="submit" className="btn btn-info" defaultValue="Save" />
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+            
                 {/* Delete Modal HTML */}
                 <div id="deleteEmployeeModal" className="modal fade">
                     <div className="modal-dialog">
@@ -175,10 +93,8 @@ const User = () => {
                         </div>
                     </div>
                 </div>
-
             </div>
             <Footer />
-
         </div>
     )
 };

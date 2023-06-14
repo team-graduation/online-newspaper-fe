@@ -17,6 +17,26 @@ class UserService {
         });
     }
 
+    getProfile(){
+        return axios({
+            method: 'get',
+            url: USER_API_BASE_URL + '/profile',
+            headers: {
+                Authorization: 'Bearer ' + this.token,
+            }
+        });
+    }
+
+    deleteUser(userId) {
+        return axios({
+            method: 'delete',
+            url: USER_API_BASE_URL + '/admin/users/' + userId,
+            headers: {
+                Authorization: 'Bearer ' + this.token,
+            }
+        });
+    }
+
 }
 
 export default new UserService()

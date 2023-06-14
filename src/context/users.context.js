@@ -15,8 +15,25 @@ const UserContextProvider = ({ children }) => {
     const getAllUser = async () => {
         try {
             const response = await UserService.getAllUser();
-            console.log(response)
             setAllUser(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const deleteUser = async (userId) => {
+        try {
+            const response = await UserService.deleteUser(userId);
+            getAllUser();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const getProfile = async () => {
+        try {
+            const response = await UserService.getProfile();
+            setUser(response.data);
         } catch (error) {
             console.log(error);
         }
@@ -34,7 +51,9 @@ const UserContextProvider = ({ children }) => {
                 user,
                 setUser,
                 allUser,
-                setAllUser
+                setAllUser,
+                deleteUser,
+                getProfile
             }}
         >
             {children}

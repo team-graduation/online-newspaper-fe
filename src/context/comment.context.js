@@ -5,16 +5,24 @@ const CommentContext = createContext("");
 
 const  CommentContextProvider = ({ children }) => {
 
-  const [comments, setComments] = useState({});
-
-  const commentAPI = CommentService;
+  const [comments, setComments] = useState([]);
 
   const getCommentByNews = async (newsId) => {
     try {
+      
       const response = await CommentService.getCommentByNews(newsId);
+      console.log(response);
       setComments(response.data);
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  const createComment = async (newsId, comments) => {
+    try {
+      const response = await CommentService.createComment(newsId, comments);
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -27,7 +35,8 @@ const  CommentContextProvider = ({ children }) => {
       value={{
         comments,
         setComments,
-        getCommentByNews
+        getCommentByNews,
+        createComment
       }}
     >
       {children}

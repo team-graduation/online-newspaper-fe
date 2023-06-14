@@ -7,6 +7,16 @@ class NewsService {
         this.token = JSON.parse(localStorage.getItem('user'))?.token;
     }
     getAllNews() {
+        return axios({
+            method: 'get',
+            url: NEWS_API_BASE_URL + '/admin/news',
+            headers: {
+                Authorization: 'Bearer ' + this.token,
+            }
+        })
+    }
+
+    getAllNewsByStatus() {
         return axios.get(NEWS_API_BASE_URL + '/news');
     }
 
@@ -18,12 +28,18 @@ class NewsService {
         return axios.get(NEWS_API_BASE_URL + '/news/' + newsId);
     }
 
-    getNewsByCategory(categoryTitle) {
-        return axios.get(NEWS_API_BASE_URL + '/news/category/' + categoryTitle);
+    getNewsByCategory(categoryId) {
+        return axios.get(NEWS_API_BASE_URL + '/news/category/' + categoryId);
     }
 
-    getNewsByUser(userId) {
-        return axios.get(NEWS_API_BASE_URL + '/user/' + userId + '/news')
+    getNewsByUser() {
+        return axios({
+            method: 'get',
+            url: NEWS_API_BASE_URL + '/user/news',
+            headers: {
+                Authorization: 'Bearer ' + this.token,
+            }
+        })
     }
 
     getNewsRecommend() {
@@ -62,6 +78,10 @@ class NewsService {
                 Authorization: 'Bearer ' + this.token,
             }
         });
+    }
+
+    searchNewsByTitle(title) {
+        return axios.get(NEWS_API_BASE_URL + '/news/search', title);
     }
 }
 
