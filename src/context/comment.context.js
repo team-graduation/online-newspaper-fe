@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import CommentService from "../services/CommentService";
 
 const CommentContext = createContext("");
@@ -25,10 +25,6 @@ const  CommentContextProvider = ({ children }) => {
       console.log(error)
     }
   }
-
-  // useEffect(() => {
-  //   getCommentByNews();
-  // }, [])
 
   return (
     <CommentContext.Provider

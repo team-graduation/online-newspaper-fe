@@ -59,7 +59,7 @@ const News = () => {
                                     <h2>Manage <b>News</b></h2>
                                 </div>
                                 <div className="col-sm-6">
-                                    <a href="/admin/news/add" className="btn btn-success" data-toggle="modal"><i className="material-icons"></i> <span>Add News</span></a>
+                                    <a href="/news/add" className="btn btn-success" data-toggle="modal"><i className="material-icons"></i> <span>Add News</span></a>
                                 </div>
                             </div>
                         </div>

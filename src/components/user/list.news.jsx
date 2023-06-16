@@ -5,7 +5,6 @@ import { Header } from "../common/header";
 import { Footer } from "../common/footer";
 import "./card.css"
 
-
 const ListNewsOfUser = () => {
     const navigate = useNavigate();
     const [pendingDeleteArticle, setPendingDeleteArticle] = useState({});
@@ -51,12 +50,14 @@ const ListNewsOfUser = () => {
             <Header />
             <div
                 className="hero-area height-400 bg-img background-overlay"
-                style={{ backgroundImage: "url(img/blog-img/bg3.jpg)" }}
+                style={{ backgroundImage: "url(https://cdn.xxl.thumbs.canstockphoto.com/daily-newspaper-and-small-wooden-cubes-with-the-words-daily-news-stock-photo_csp44333943.jpg)" }}
             />
-            <div class="w3-container w3-lobster" style={{ marginTop:10, textAlign:'center' }}>
+            <div class="w3-container w3-lobster" style={{ marginTop: 10, textAlign: 'center' }}>
                 <p class="w3-xxxlarge font-effect-shadow-multiple">My newspaper</p>
             </div>
-
+            <div className="col-md-3" style={{ float:'right' }}>
+                <a href="/news/add" className="btn btn-success w3-round"><i class="fa fa-plus"></i><span>Add News</span></a>
+            </div>
             <div className="main-content-wrapper section-padding-50">
                 <div className="container">
                     <div className="row">

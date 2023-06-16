@@ -2,9 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../../context/users.context";
 import React, { useContext, useMemo, useState } from "react";
 
-
-
-
 const dropdownItemsAdmin = [
   "Manage News",
   "Manage Users",
@@ -16,13 +13,24 @@ export const Header = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const dropdownItems = [
-    {title: "Profile", onClick: () => {
-      navigate('/profile');
-    }},
-    {title: "My newspaper", onClick: () => {
-      navigate('/user/news');
-    }},
-    {title: "Logout", onClick: () => {}},
+    {
+      title: "Profile", onClick: () => {
+        navigate('/profile');
+      }
+    },
+    {
+      title: "My newspaper", onClick: () => {
+        navigate('/user/news');
+      }
+    },
+    {
+      title: "Create newspaper", onClick: () => {
+        navigate('/news/add');
+      }
+    },
+    { title: "Logout", onClick: () => { 
+      navigate('/login');
+    } },
   ];
 
   return (
@@ -53,32 +61,32 @@ export const Header = () => {
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item active">
                     <a className="nav-link" href="/">
-                      Home 
+                      Home
                     </a>
                   </li>
                   <li className="nav-item active">
                     <a className="nav-link" href="/category/1">
-                      Entertainment 
+                      Entertainment
                     </a>
                   </li>
                   <li className="nav-item active">
                     <a className="nav-link" href="/category/2">
-                      Politics & Worlds 
+                      Politics & Worlds
                     </a>
                   </li>
                   <li className="nav-item active">
                     <a className="nav-link" href="/category/3">
-                      Sport 
+                      Sport
                     </a>
                   </li>
                   <li className="nav-item active">
                     <a className="nav-link" href="/category/4">
-                      Technology 
+                      Technology
                     </a>
                   </li>
                   <li className="nav-item active">
                     <a className="nav-link" href="/category/5">
-                      Business 
+                      Business
                     </a>
                   </li>
                   {!!user && <li className="nav-item dropdown active">
@@ -90,7 +98,7 @@ export const Header = () => {
                       aria-haspopup="true"
                       aria-expanded="false"
                     >
-                      {user?.info?.username }
+                      {user?.info?.username}
                     </a>
                     <div
                       className="dropdown-menu"
@@ -109,7 +117,7 @@ export const Header = () => {
                   </li>}
                   {!user && <li className="nav-item active">
                     <a className="nav-link" href="/login">
-                      Login 
+                      Login
                     </a>
                   </li>}
                 </ul>

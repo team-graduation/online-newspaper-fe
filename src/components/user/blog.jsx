@@ -16,19 +16,17 @@ const Blog = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-
     const { id: articleId } = params;
     const response = getNewsById(articleId);
     setCurrentArticle(response.data);
     getCommentByNews(articleId);
   }, []);
 
-  const onSubmitCommentHandler = () => {
-    let newComment = new FormData();
-    newComment.append('content', content);
-
-    createComment(newComment);
-  }
+  // const onSubmitCommentHandler = () => {
+  //   let newComment = new FormData();
+  //   newComment.append('content', content);
+  //   createComment(articleId, newComment);
+  // }
 
   const onCategoryClickHandler = (categoryId) => (event) => {
     navigate(`/category/${categoryId}`);
@@ -48,14 +46,11 @@ const Blog = () => {
         <div className="container h-100">
           <div className="row h-100 align-items-center justify-content-center">
             <div className="col-12 col-md-8 col-lg-6">
-              <div className="single-blog-title text-center" style={{ background:'#fff', borderRadius:'10px' }}>
+              <div className="single-blog-title text-center" style={{ background: '#fff', borderRadius: '10px' }}>
                 {/* Catagory */}
-                {/* <div className="post-cta">
-                  <a href="#" onClick={onCategoryClickHandler(currentArticle?.category?.categoryId)}>{currentArticle?.category?.categoryTitle}</a>
-                </div> */}
                 <div className="w3-container">
                   <span className="w3-tag w3-spin w3-round-xxlarge w3-red">
-                  <a style={{ fontWeight:'bold', fontSize:'20px'}} onClick={onCategoryClickHandler(currentArticle?.category?.categoryId)}>{currentArticle?.category?.categoryTitle}</a>
+                    <a style={{ fontWeight: 'bold', fontSize: '20px' }} onClick={onCategoryClickHandler(currentArticle?.category?.categoryId)}>{currentArticle?.category?.categoryTitle}</a>
                   </span>
                 </div>
                 <h3>
@@ -88,35 +83,21 @@ const Blog = () => {
                   </p>
                 </div>
                 {/* Post Content */}
-
+                <div class="w3-container">
+                  <div class="w3-tag w3-round w3-amber" style={{ transform: 'rotate(-10deg)', padding: '3px' }}>
+                    <div class="w3-tag w3-round w3-amber w3-border w3-border-white">
+                      {currentArticle?.sentiment}
+                    </div>
+                  </div>
+                </div>
                 <div className="post-content">
-                  <div><button class="w3-button w3-round-xlarge w3-yellow w3-ripple">{currentArticle?.sentiment}</button></div>
-                  <br></br>
                   <div>
-                    <p style={{ textAlign: 'center' }}><i>{currentArticle?.summarization}</i></p>
+                    <p className="w3-opacity" style={{ textAlign: 'center' }}><i>{currentArticle?.summarization}</i></p>
                     <hr></hr>
                   </div>
-
-
-
                   {currentArticle?.content ? <fragment dangerouslySetInnerHTML={{ __html: currentArticle?.content }}></fragment> : (
                     <>
                       <h6>Content null</h6>
-                      {/* Post Tags */}
-                      <ul className="post-tags">
-                        <li>
-                          <a href="#">Manual</a>
-                        </li>
-                        <li>
-                          <a href="#">Liberty</a>
-                        </li>
-                        <li>
-                          <a href="#">Recommendations</a>
-                        </li>
-                        <li>
-                          <a href="#">Interpritation</a>
-                        </li>
-                      </ul>
                       <div >
                         <p>
                           <h1>Created by</h1>
@@ -150,21 +131,21 @@ const Blog = () => {
           </div>
           <div className="row">
             {/* Start Comment */}
-                <div class="d-flex flex-column col-md-8">
-                  <div class="coment-bottom bg-white p-2 px-4">
-                    {comments.map((comment) => (
-                      <div
-                        class="commented-section mt-2">
-                        <div class="d-flex flex-row align-items-center commented-user">
-                          <h4 style={{ fontWeight: "bold" }}>{comment.user.username}</h4></div>
-                        <div><span>{comment.content}</span></div>
-                      </div>
-                    ))}
-                    <div class="d-flex flex-row add-comment-section mt-4 mb-4">
-                      <input type="text" className="form-control mr-3" style={{ width:'960px' }} placeholder="Add comment" />
-                      <button class="btn btn-primary">Comment</button></div>
+            <div class="d-flex flex-column col-md-8">
+              <div class="coment-bottom bg-white p-2 px-4">
+                {comments.map((comment) => (
+                  <div
+                    class="commented-section mt-2">
+                    <div class="d-flex flex-row align-items-center commented-user">
+                      <h4 style={{ fontWeight: "bold" }}>{comment.user.username}</h4></div>
+                    <div><span>{comment.content}</span></div>
                   </div>
-                </div>   
+                ))}
+                <div class="d-flex flex-row add-comment-section mt-4 mb-4">
+                  <input type="text" className="form-control mr-3" style={{ width: '960px' }} placeholder="Add comment" content={content} />
+                  <button class="btn btn-primary">Comment</button></div>
+              </div>
+            </div>
             {/* End Comment */}
           </div>
         </div>

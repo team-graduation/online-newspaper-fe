@@ -40,7 +40,7 @@ function App() {
               {/* Admin */}
               <Route path="/admin/user" exact element={<UserAdmin></UserAdmin>} />
               <Route path="/admin/news" exact element={<NewsAdmin></NewsAdmin>} />
-              <Route path="/admin/news/add" exact element={<AddNews></AddNews>} />
+              <Route path="/news/add" exact element={<AddNews></AddNews>} />
               <Route path="admin/news/edit/:id" exact element={<AddNews></AddNews>} />
               <Route path="test" exact element={<Test></Test>} />
 

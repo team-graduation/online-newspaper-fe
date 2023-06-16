@@ -18,6 +18,7 @@ class CommentService {
             data: comments,
             headers: {
                 Authorization: 'Bearer ' + this.token,
+                'Content-Type': 'application/json',
             }
         });
     }

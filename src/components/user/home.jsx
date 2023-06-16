@@ -84,7 +84,7 @@ const Home = () => {
                     >
                       <div className="row">
                         {articlesByCategory.map((article) => (
-                          <div className="col-12 col-md-6 mb-15">
+                          <div className="col-12 col-md-6 mb-15 card">
                             <div
                               key={article.id}
                               className="single-blog-post post-style-2 d-flex align-items-center wow fadeInUpBig"
@@ -102,7 +102,7 @@ const Home = () => {
 
                                 <div className="post-meta">
                                   <p>
-                                    <a href="#" className="post-author">
+                                    <a style={{ fontWeight: 'bold' }} className="post-author">
                                       {article?.user?.username}
                                     </a>{" "}
                                     on{" "}

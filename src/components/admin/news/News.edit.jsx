@@ -86,7 +86,7 @@ const NewsEdittingPage = () => {
                         <p class="w3-xxxlarge font-effect-shadow-multiple">Newspaper</p>
                     </div>
                     <div className="load-more-btn text-center">
-                        <div href="#" className="edit-newspaper__submit" onClick={(e) => isEditting ? onEditNewsHandler() : onSubmitNewsHandler()}>
+                        <div className="edit-newspaper__submit" onClick={(e) => isEditting ? onEditNewsHandler() : onSubmitNewsHandler()}>
                             {isEditting ? 'UPDATE' : 'CREATE'}
                         </div>
                     </div>
@@ -127,6 +127,16 @@ const NewsEdittingPage = () => {
                     content={content}
                     onEditorContentChange={onEditorContentChange}
                 />
+                <div className="label-area content--space-between padding-top-100">
+                    <div class="w3-container">
+                        
+                    </div>
+                    <div className="load-more-btn text-center">
+                        <div className="edit-newspaper__submit w3-round" onClick={(e) => isEditting ? onEditNewsHandler() : onSubmitNewsHandler()}>
+                            {isEditting ? 'UPDATE' : 'CREATE'}
+                        </div>
+                    </div>
+                </div>
             </div>
             <Footer />
         </div>
