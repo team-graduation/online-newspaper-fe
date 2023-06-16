@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Header } from "../../common/header/index";
 import { Footer } from "../../common/footer/index";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,9 @@ import { ArticlesContext } from "context/articles.context";
 
 const News = () => {
     const navigate = useNavigate();
-    const { allArticlesAdmin, setCurrentArticle, deleteNews } = useContext(ArticlesContext);
+    const [pendingDeleteArticle, setPendingDeleteArticle] = useState({});
+    const [isDeletingArticle, setIsDeleteArticle] = useState(false);
+    const { allArticlesAdmin, setCurrentArticle, deleteNews, acceptNews } = useContext(ArticlesContext);
 
     const onArticleClickHandler = (article) => (event) => {
         setCurrentArticle(article);
@@ -16,10 +18,27 @@ const News = () => {
     };
 
     const onDeleteNewsClickHandler = (article) => (event) => {
-        deleteNews(article.newsId)
+        setIsDeleteArticle(true);
+        setPendingDeleteArticle(article);
     }
 
-    console.log(allArticlesAdmin);
+    const onAcceptNewsClickHandler = (article) => (event) => {
+        acceptNews(article.newsId);
+        const button = event.target;
+        button.classList.add("red-color");
+    }
+
+    const onConfirmDeleteHandler = (e) => {
+        e.preventDefault();
+        deleteNews(pendingDeleteArticle.newsId);
+        setIsDeleteArticle(false);
+    }
+
+    const onCancelDeleteHandler = (e) => {
+        e.preventDefault();
+        setIsDeleteArticle(false);
+        setPendingDeleteArticle({});
+    }
 
     return (
         <div>
@@ -50,6 +69,7 @@ const News = () => {
                                     <th>Authour</th>
                                     <th>Published Day</th>
                                     <th>Status</th>
+                                    <th>Accept</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -63,11 +83,12 @@ const News = () => {
                                         <td>{new Date(articles.addedDate).toLocaleDateString()}</td>
                                         <td>
                                             {articles?.status ? (
-                                                <span style={{color: "green" }}>Approved</span>
+                                                <span style={{ color: "green" }}>Approved</span>
                                             ) : (
-                                                <span style={{color: "red" }}>Pending...</span>
+                                                <span style={{ color: "red" }}>Pending...</span>
                                             )}
                                         </td>
+                                        <td><button type="button" class="btn btn-warning" onClick={onAcceptNewsClickHandler(articles)}>Accept</button></td>
                                         <td>
                                             <a onClick={onArticleClickHandler(articles)} className="edit" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Edit"></i></a>
                                             <a onClick={onDeleteNewsClickHandler(articles)} className="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"></i></a>
@@ -91,50 +112,22 @@ const News = () => {
 
 
                 {/* Modal delete */}
-                <div id="myModal" class="modal fade">
+                {isDeletingArticle &&
+                <div style={{ display: "block" }} id="myModal" class="modal">
                     <div class="modal-dialog modal-confirm">
                         <div class="modal-content">
-                            <div class="modal-header flex-column">
-                                <div class="icon-box">
-                                    <i class="material-icons">&#xE5CD;</i>
-                                </div>
-                                <h4 class="modal-title w-100">Are you sure?</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            </div>
                             <div class="modal-body">
                                 <p>Do you really want to delete these records? This process cannot be undone.</p>
                             </div>
                             <div class="modal-footer justify-content-center">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-danger">Delete</button>
+                                <button onClick={onCancelDeleteHandler} type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button onClick={onConfirmDeleteHandler} type="button" class="btn btn-danger">Delete</button>
                             </div>
                         </div>
                     </div>
                 </div>
+                 }
 
-
-
-                {/* Delete Modal HTML */}
-                <div id="deleteEmployeeModal" className="modal fade">
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <form>
-                                <div className="modal-header">
-                                    <h4 className="modal-title">Delete Employee</h4>
-                                    <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                </div>
-                                <div className="modal-body">
-                                    <p>Are you sure you want to delete these Records?</p>
-                                    <p className="text-warning"><small>This action cannot be undone.</small></p>
-                                </div>
-                                <div className="modal-footer">
-                                    <input type="button" className="btn btn-default" data-dismiss="modal" defaultValue="Cancel" />
-                                    <input type="submit" className="btn btn-danger" defaultValue="Delete" />
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
 
             </div>
             <Footer />

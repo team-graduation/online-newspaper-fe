@@ -1,22 +1,30 @@
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../../context/users.context";
+import React, { useContext, useMemo, useState } from "react";
 
-const dropdownItems = [
-  "Home",
-  "Category",
-  "Single Blog",
-  "Regular Page",
-  "Contact",
-];
+
+
 
 const dropdownItemsAdmin = [
-  "Home",
-  "Users",
-  "Categories",
-  "News",
+  "Manage News",
+  "Manage Users",
+  "Profile",
+  "My newspaper",
 ];
 
 export const Header = () => {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+  const dropdownItems = [
+    {title: "Profile", onClick: () => {
+      navigate('/profile');
+    }},
+    {title: "My newspaper", onClick: () => {
+      navigate('/user/news');
+    }},
+    {title: "Logout", onClick: () => {}},
+  ];
+
   return (
     <header className="header-area">
       <div className="container">
@@ -48,17 +56,41 @@ export const Header = () => {
                       Home <span className="sr-only">(current)</span>
                     </a>
                   </li>
-                  <li className="nav-item dropdown">
+                  <li className="nav-item active">
+                    <a className="nav-link" href="#">
+                      Entertainment <span className="sr-only">(current)</span>
+                    </a>
+                  </li>
+                  <li className="nav-item active">
+                    <a className="nav-link" href="#">
+                      Politics & Worlds <span className="sr-only">(current)</span>
+                    </a>
+                  </li>
+                  <li className="nav-item active">
+                    <a className="nav-link" href="#">
+                      Sport <span className="sr-only">(current)</span>
+                    </a>
+                  </li>
+                  <li className="nav-item active">
+                    <a className="nav-link" href="#">
+                      Technology <span className="sr-only">(current)</span>
+                    </a>
+                  </li>
+                  <li className="nav-item active">
+                    <a className="nav-link" href="#">
+                      Business <span className="sr-only">(current)</span>
+                    </a>
+                  </li>
+                  {!!user && <li className="nav-item dropdown active">
                     <a
                       className="nav-link dropdown-toggle"
-                      href="#"
                       id="navbarDropdown"
                       role="button"
                       data-toggle="dropdown"
                       aria-haspopup="true"
                       aria-expanded="false"
                     >
-                      Pages
+                      {user?.info?.username }
                     </a>
                     <div
                       className="dropdown-menu"
@@ -68,36 +100,19 @@ export const Header = () => {
                         <a
                           key={item}
                           className="dropdown-item"
-                          href="index.html"
+                          onClick={item.onClick}
                         >
-                          {item}
+                          {item.title}
                         </a>
                       ))}
                     </div>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">
-                      Contact
-                    </a>
-                  </li>
-                  <li className="nav-item">
+                  </li>}
+                  {!user && <li className="nav-item active">
                     <a className="nav-link" href="/login">
-                      Login
+                      Login 
                     </a>
-                  </li>
+                  </li>}
                 </ul>
-                {/* Search Form  */}
-                <div id="search-wrapper">
-                  <form action="#">
-                    <input
-                      type="text"
-                      id="search"
-                      placeholder="Search something..."
-                    />
-                    <div id="close-icon" />
-                    <input className="d-none" type="submit" defaultValue />
-                  </form>
-                </div>
               </div>
             </nav>
           </div>

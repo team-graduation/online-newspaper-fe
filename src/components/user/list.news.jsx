@@ -8,9 +8,18 @@ import "./card.css"
 
 const ListNewsOfUser = () => {
     const navigate = useNavigate();
-    const { setCurrentArticle, articlesOfUser = [], getNewsByUser } = useContext(ArticlesContext);
+    const { setCurrentArticle, articlesOfUser = [], getNewsByUser, deleteNews } = useContext(ArticlesContext);
     const onArticleClickHandler = (article) => (event) => {
         navigate(`/news/${article.newsId}`);
+    };
+
+    const onDeleteNewsClickHandler = (article) => (event) => {
+        deleteNews(article.newsId);
+    }
+
+    const onEditArticleClickHandler = (article) => (event) => {
+        setCurrentArticle(article);
+        navigate(`/admin/news/edit/${article.newsId}`);
     };
 
     useEffect(() => {
@@ -30,8 +39,7 @@ const ListNewsOfUser = () => {
                         {articlesOfUser.map((article) => (
                             <div className="col-12 col-md-6 mb-30 card">
                                 <div className="single-blog-post post-style-4 d-flex align-items-center"
-                                    key={article.id}
-                                    onClick={onArticleClickHandler(article)}>
+                                    key={article.id}>
                                     <div className="post-thumbnail">
                                         <img width={200} height={200} src={article.thumbnail} alt="" />
                                     </div>
@@ -62,8 +70,20 @@ const ListNewsOfUser = () => {
                                                 )}
                                             </span>
                                         </div>
+                                        <div class="row" style={{ background: "#97CBC8", borderRadius: "10px "}}>
+                                            <div className="col-12 col-md-4">
+                                                <a onClick={onArticleClickHandler(article)} data-toggle="modal"><i class="fa fa-eye" style={{ fontSize: '23px', color: 'black' }}></i></a>
+                                            </div>
+                                            <div className="col-12 col-md-4">
+                                                <a onClick={onEditArticleClickHandler(article)} data-toggle="modal"><i class="fa far fa-edit" style={{ fontSize: '23px', color: '#FF8000' }}></i></a>
+                                            </div>
+                                            <div className="col-12 col-md-4">
+                                                <a onClick={onDeleteNewsClickHandler(article)} data-toggle="modal"><i class="fa fa-trash-o" style={{ fontSize: '23px', color: 'red' }}></i></a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
                         ))}
                     </div>

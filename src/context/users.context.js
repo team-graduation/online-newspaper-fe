@@ -5,8 +5,13 @@ import UserService from "services/UserService";
 const UserContext = createContext("");
 
 const UserContextProvider = ({ children }) => {
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState(undefined);
     const [allUser, setAllUser] = useState([]);
+
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        setUser(JSON.parse(user));
+      },[]);
 
     async function register(credential) {
         const data = await register(credential);

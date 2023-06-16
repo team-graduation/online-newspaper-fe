@@ -15,3 +15,16 @@ code {
 .capitalize {
   text-transform: capitalize;
 }
+
+.modal .modal-dialog {
+  margin-top: 10% !important;
+}
+
+.img-input {
+  display: flex;
+  flex-direction: column;
+}
+
+.quill .ql-container {
+  min-height: 400px;
+}

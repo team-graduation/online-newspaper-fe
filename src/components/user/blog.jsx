@@ -10,7 +10,7 @@ import { CommentContext } from "context/comment.context";
 const Blog = () => {
   const params = useParams();
   const { currentArticle = {}, getNewsById, setCurrentArticle } = useContext(ArticlesContext);
-  const { comments = [] , getCommentByNews, setComments, createComment } = useContext(CommentContext);
+  const { comments = [], getCommentByNews, setComments, createComment } = useContext(CommentContext);
   const [content, setContent] = useState("");
 
   useEffect(() => {
@@ -26,14 +26,13 @@ const Blog = () => {
     newComment.append('content', content);
 
     createComment(newComment);
-}
+  }
 
   // const navigate = useNavigate();
   // const { articles , setCurrentArticle } = useContext(ArticlesContext);
 
   return (
     <div>
-
       <Header />
       <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
       <div
@@ -89,7 +88,7 @@ const Blog = () => {
                     <hr></hr>
                   </div>
 
-              
+
 
                   {currentArticle?.content ? <fragment dangerouslySetInnerHTML={{ __html: currentArticle?.content }}></fragment> : (
                     <>
@@ -141,140 +140,21 @@ const Blog = () => {
             {/* ========== Sidebar Area ========== */}
             <Sidebar />
           </div>
-          {/* ============== Related Post ============== */}
           <div className="row">
-            <div className="col-12 col-md-6 col-lg-4">
-              {/* Single Blog Post */}
-              <div className="single-blog-post">
-                {/* Post Thumbnail */}
-                <div className="post-thumbnail">
-                  <img src={currentArticle} alt="" />
-                  {/* Catagory */}
-                  <div className="post-cta">
-                    <a href="#">news</a>
-                  </div>
-                </div>
-                {/* Post Content */}
-                <div className="post-content">
-                  <a href="#" className="headline">
-                    <h5>
-                      Newspaper Title
-                    </h5>
-                  </a>
-                  <p>
-                    Newspaper Content
-                  </p>
-                  {/* Post Meta */}
-                  <div className="post-meta">
-                    <p>
-                      <a href="#" className="post-author">
-                        Diem Hoang
-                      </a>{" "}
-                      on{" "}
-                      <a href="#" className="post-date">
-                        May 19, 2023 at 9:48 am
-                      </a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-md-6 col-lg-4">
-              {/* Single Blog Post */}
-              <div className="single-blog-post">
-                {/* Post Thumbnail */}
-                <div className="post-thumbnail">
-                  <img src="img/blog-img/b2.jpg" alt="" />
-                  {/* Catagory */}
-                  <div className="post-cta">
-                    <a href="#">news</a>
-                  </div>
-                </div>
-                {/* Post Content */}
-                <div className="post-content">
-                  <a href="#" className="headline">
-                    <h5>
-                      Newspaper Title
-                    </h5>
-                  </a>
-                  <p>
-                    Newspaper Content
-                  </p>
-                  {/* Post Meta */}
-                  <div className="post-meta">
-                    <p>
-                      <a href="#" className="post-author">
-                        Diem Hoang
-                      </a>{" "}
-                      on{" "}
-                      <a href="#" className="post-date">
-                        May 19, 2023 at 9:48 am
-                      </a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-md-6 col-lg-4">
-              {/* Single Blog Post */}
-              <div className="single-blog-post">
-                {/* Post Thumbnail */}
-                <div className="post-thumbnail">
-                  <img src="img/blog-img/b7.jpg" alt="" />
-                  {/* Catagory */}
-                  <div className="post-cta">
-                    <a href="#">travel</a>
-                  </div>
-                  {/* Video Button */}
-                  <a
-                    href="https://www.youtube.com/watch?v=IhnqEwFSJRg"
-                    className="video-btn"
-                  >
-                    <i className="fa fa-play" />
-                  </a>
-                </div>
-                {/* Post Content */}
-                <div className="post-content">
-                  <a href="#" className="headline">
-                    <h5>
-                      Newspaper Title
-                    </h5>
-                  </a>
-                  <p>
-                    Newspaper Content
-                  </p>
-                  {/* Post Meta */}
-                  <div className="post-meta">
-                    <p>
-                      <a href="#" className="post-author">
-                        Diem Hoang
-                      </a>{" "}
-                      on{" "}
-                      <a href="#" className="post-date">
-                        May 19, 2023 at 9:48 am
-                      </a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-
             {/* Start Comment */}
             <div class="mt-5 mb-5">
               <div>
                 <div class="d-flex flex-column col-md-8">
 
                   <div class="coment-bottom bg-white p-2 px-4">
-                  {comments.map((comment) => (
-                    <div
-                      class="commented-section mt-2">
-                      <div class="d-flex flex-row align-items-center commented-user">
-                        <h4 style={{ fontWeight: "bold" }}>{comment.user.username}</h4></div>
-                      <div class="comment-text-sm"><span>{comment.content}</span></div>
-                    </div>
-  ))}
+                    {comments.map((comment) => (
+                      <div
+                        class="commented-section mt-2">
+                        <div class="d-flex flex-row align-items-center commented-user">
+                          <h4 style={{ fontWeight: "bold" }}>{comment.user.username}</h4></div>
+                        <div class="comment-text-sm"><span>{comment.content}</span></div>
+                      </div>
+                    ))}
                     <div class="d-flex flex-row add-comment-section mt-4 mb-4">
                       <input type="text" className="form-control mr-3" placeholder="Add comment" />
                       <button class="btn btn-primary" type="button">Comment</button></div>

@@ -15,6 +15,8 @@ const ArticlesContextProvider = ({ children }) => {
   const [allArticlesAdmin, setAllArticlesAdmin] = useState([]);
 
 
+
+
   const getAllNewsByAdmin = async () => {
     try {
       const response = await NewsService.getAllNews();
@@ -97,7 +99,7 @@ const ArticlesContextProvider = ({ children }) => {
   const deleteNews = async (newsId) => {
     try {
       const response = await NewsService.deleteNews(newsId);
-      getAllNews();
+      getAllNewsByAdmin();
     } catch (error) {
       console.log(error);
     }
@@ -106,6 +108,15 @@ const ArticlesContextProvider = ({ children }) => {
   const searchNewsByTitle = async (title) => {
     try {
       const response = await NewsService.searchNewsByTitle(title);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const acceptNews = async (newsId) => {
+    try {
+      const response = await NewsService.acceptNews(newsId);
+      getAllNewsByAdmin();
     } catch (error) {
       console.log(error);
     }
@@ -142,7 +153,8 @@ const ArticlesContextProvider = ({ children }) => {
         getNewsByUser,
         allArticlesAdmin, 
         setAllArticlesAdmin,
-        getAllNewsByAdmin
+        getAllNewsByAdmin,
+        acceptNews
       }}
     >
       {children}

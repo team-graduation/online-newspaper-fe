@@ -83,6 +83,16 @@ class NewsService {
     searchNewsByTitle(title) {
         return axios.get(NEWS_API_BASE_URL + '/news/search', title);
     }
+
+    acceptNews(newsId) {
+        return axios({
+            method: 'get',
+            url: NEWS_API_BASE_URL + '/news/accept/' + newsId,
+            headers: {
+                Authorization: 'Bearer ' + this.token,
+            }
+        });
+    }
 }
 
 export default new NewsService()

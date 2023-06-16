@@ -5,6 +5,7 @@ import { ArticlesContext } from "../../../context/articles.context";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../../common/header";
 import { Footer } from "../../common/footer";
+import DefaultImage from '../../../assets/img/default-img.jpg';
 
 const NewsEdittingPage = () => {
     const navigate = useNavigate();
@@ -89,10 +90,10 @@ const NewsEdittingPage = () => {
                 <div className="label-area padding-top-100">
                     <label className="col-lg-2 label-rich-text">Title</label>
                     <div>
-                        <input
+                        <textarea
                             // type="text-area"
                             type="text"
-                            placeholder="Enter title here"
+                            placeholder="Enter title here....."
                             id="title"
                             value={title}
                             rows="4"
@@ -100,12 +101,12 @@ const NewsEdittingPage = () => {
                             onChange={(e) => setTitle(e.target.value)}
                             style={{ resize: "none" }}
                             required
-                        ></input>
+                        ></textarea>
                     </div>
                 </div>
                 <div className="label-area">
                     <label className="col-lg-2 label-rich-text">Thumbnail</label>
-                    <div>
+                    <div className="img-input">
                         <input
                             type="file"
                             id="avatar"
@@ -113,8 +114,8 @@ const NewsEdittingPage = () => {
                             accept="image/png, image/jpeg"
                             onChange={onBackgroundImageSelected}
                         ></input>
-                        {thumbnailUrl && <img src={thumbnailUrl} />}
-                        {articleOnEdit && !thumbnailUrl && <img src={articleOnEdit?.thumbnail} />}
+                        <img height={300} width={300/6*10} src={thumbnailUrl || DefaultImage} />
+                        {articleOnEdit && !thumbnailUrl && <img  height={300} width={300/6*10}  src={articleOnEdit?.thumbnail} />}
                     </div>
                 </div>
                 <Editor
