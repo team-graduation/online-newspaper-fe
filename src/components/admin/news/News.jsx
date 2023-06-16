@@ -3,7 +3,6 @@ import { Header } from "../../common/header/index";
 import { Footer } from "../../common/footer/index";
 import { useNavigate } from "react-router-dom";
 import "../../admin/table.css";
-import "../../admin/modal.css"
 import { ArticlesContext } from "context/articles.context";
 
 const News = () => {
@@ -11,6 +10,10 @@ const News = () => {
     const [pendingDeleteArticle, setPendingDeleteArticle] = useState({});
     const [isDeletingArticle, setIsDeleteArticle] = useState(false);
     const { allArticlesAdmin, setCurrentArticle, deleteNews, acceptNews } = useContext(ArticlesContext);
+
+    const onArticleDetailClickHandler = (article) => (event) => {
+        navigate(`/news/${article.newsId}`);
+      };    
 
     const onArticleClickHandler = (article) => (event) => {
         setCurrentArticle(article);
@@ -77,7 +80,7 @@ const News = () => {
                                 {allArticlesAdmin.map((articles) => (
                                     <tr>
                                         <td style={{ fontWeight: "bold" }}>{articles.newsId}</td>
-                                        <td onClick={onArticleClickHandler(articles)}>{articles.title}</td>
+                                        <td onClick={onArticleDetailClickHandler(articles)}>{articles.title}</td>
                                         <td>{articles.category?.categoryTitle}</td>
                                         <td>{articles.user?.username}</td>
                                         <td>{new Date(articles.addedDate).toLocaleDateString()}</td>
@@ -127,8 +130,6 @@ const News = () => {
                     </div>
                 </div>
                  }
-
-
             </div>
             <Footer />
 

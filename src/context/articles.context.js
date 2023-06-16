@@ -53,9 +53,9 @@ const ArticlesContextProvider = ({ children }) => {
     }
   }
 
-  const getNewsById = async (categoryId) => {
+  const getNewsById = async (newsId) => {
     try {
-      const response = await NewsService.getNewsById(categoryId);
+      const response = await NewsService.getNewsById(newsId);
       setCurrentArticle(response.data);
     } catch (error) {
       console.log(error);
@@ -83,6 +83,7 @@ const ArticlesContextProvider = ({ children }) => {
   const createNews = async (news) => {
     try {
       const response = await NewsService.createNews(news);
+      getNewsByUser();
     } catch (error) {
       console.log(error)
     }
@@ -91,6 +92,7 @@ const ArticlesContextProvider = ({ children }) => {
   const updateNews = async (newsId, news) => {
     try {
       const response = await NewsService.updateNews(newsId, news);
+      getNewsById(newsId);
     } catch (error) {
       console.log(error)
     }
@@ -100,6 +102,7 @@ const ArticlesContextProvider = ({ children }) => {
     try {
       const response = await NewsService.deleteNews(newsId);
       getAllNewsByAdmin();
+      getNewsByUser();
     } catch (error) {
       console.log(error);
     }

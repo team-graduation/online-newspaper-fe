@@ -36,24 +36,24 @@ const NewsEdittingPage = () => {
         } catch (e) {
             console.log(e);
         }
-        
+
     }, [thumbnail]);
 
     useEffect(() => {
-        if(!articleId) return;
+        if (!articleId) return;
         setIsEditting(true);
         getNewsById(articleId);
-    },[articleId])
+    }, [articleId])
 
     useEffect(() => {
-        if(isEditting) setArticleOnEdit(currentArticle)
-    },[currentArticle])
+        if (isEditting) setArticleOnEdit(currentArticle)
+    }, [currentArticle])
 
     useEffect(() => {
-        if(!articleOnEdit) return;
+        if (!articleOnEdit) return;
         setTitle(articleOnEdit.title);
         setContent(articleOnEdit.content);
-    },[articleOnEdit])
+    }, [articleOnEdit])
 
     const onSubmitNewsHandler = () => {
         let newArticle = new FormData();
@@ -72,17 +72,21 @@ const NewsEdittingPage = () => {
         newArticle.append('thumbnail', thumbnail);
 
         updateNews(articleId, newArticle);
+        navigate(`/news/${articleId}`);
     }
 
     return (
         <div>
+            <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster&effect=shadow-multiple" />
             <Header />
             <div className="hero-area section-padding-100 container">
                 <div className="label-area content--space-between">
-                    <div className="col-lg-2 title edit-newspaper__header"><h2 style={{ fontWeight: "bold" }}>Newspaper</h2></div>
-
+                    <div class="w3-container w3-lobster">
+                        <p class="w3-xxxlarge font-effect-shadow-multiple">Newspaper</p>
+                    </div>
                     <div className="load-more-btn text-center">
-                        <div href="#" className="edit-newspaper__submit" onClick={(e) => isEditting ? onEditNewsHandler()  : onSubmitNewsHandler()}>
+                        <div href="#" className="edit-newspaper__submit" onClick={(e) => isEditting ? onEditNewsHandler() : onSubmitNewsHandler()}>
                             {isEditting ? 'UPDATE' : 'CREATE'}
                         </div>
                     </div>
@@ -114,13 +118,13 @@ const NewsEdittingPage = () => {
                             accept="image/png, image/jpeg"
                             onChange={onBackgroundImageSelected}
                         ></input>
-                        <img height={300} width={300/6*10} src={thumbnailUrl || DefaultImage} />
-                        {articleOnEdit && !thumbnailUrl && <img  height={300} width={300/6*10}  src={articleOnEdit?.thumbnail} />}
+                        <img height={300} width={300 / 6 * 10} src={thumbnailUrl || DefaultImage} />
+                        {articleOnEdit && !thumbnailUrl && <img height={300} width={300 / 6 * 10} src={articleOnEdit?.thumbnail} />}
                     </div>
                 </div>
                 <Editor
                     className="hero-area"
-                    content={content}         
+                    content={content}
                     onEditorContentChange={onEditorContentChange}
                 />
             </div>

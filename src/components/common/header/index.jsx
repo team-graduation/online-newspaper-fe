@@ -52,33 +52,33 @@ export const Header = () => {
               <div className="collapse navbar-collapse" id="worldNav">
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item active">
-                    <a className="nav-link" href="#">
-                      Home <span className="sr-only">(current)</span>
+                    <a className="nav-link" href="/">
+                      Home 
                     </a>
                   </li>
                   <li className="nav-item active">
-                    <a className="nav-link" href="#">
-                      Entertainment <span className="sr-only">(current)</span>
+                    <a className="nav-link" href="/category/1">
+                      Entertainment 
                     </a>
                   </li>
                   <li className="nav-item active">
-                    <a className="nav-link" href="#">
-                      Politics & Worlds <span className="sr-only">(current)</span>
+                    <a className="nav-link" href="/category/2">
+                      Politics & Worlds 
                     </a>
                   </li>
                   <li className="nav-item active">
-                    <a className="nav-link" href="#">
-                      Sport <span className="sr-only">(current)</span>
+                    <a className="nav-link" href="/category/3">
+                      Sport 
                     </a>
                   </li>
                   <li className="nav-item active">
-                    <a className="nav-link" href="#">
-                      Technology <span className="sr-only">(current)</span>
+                    <a className="nav-link" href="/category/4">
+                      Technology 
                     </a>
                   </li>
                   <li className="nav-item active">
-                    <a className="nav-link" href="#">
-                      Business <span className="sr-only">(current)</span>
+                    <a className="nav-link" href="/category/5">
+                      Business 
                     </a>
                   </li>
                   {!!user && <li className="nav-item dropdown active">

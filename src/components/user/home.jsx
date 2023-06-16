@@ -30,6 +30,8 @@ const Home = () => {
 
   return (
     <div>
+      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster&effect=shadow-multiple" />
       <Header />
       <div className="main-content-wrapper section-padding-100">
         <div className="container">
@@ -38,7 +40,11 @@ const Home = () => {
               <div className="post-content-area mb-50">
                 <div className="world-catagory-area">
                   <ul className="nav nav-tabs" id="myTab" role="tablist">
-                    <li className="title">Newspaper</li>
+                    <li className="title">
+                      <div class="w3-container w3-lobster">
+                        <p class="w3-xlarge font-effect-shadow-multiple">Newspaper</p>
+                      </div>
+                    </li>
                     <li className="nav-item">
                       <a
                         className="nav-link active"
@@ -78,7 +84,7 @@ const Home = () => {
                     >
                       <div className="row">
                         {articlesByCategory.map((article) => (
-                          <div className="col-12 col-md-6 mb-30">
+                          <div className="col-12 col-md-6 mb-15">
                             <div
                               key={article.id}
                               className="single-blog-post post-style-2 d-flex align-items-center wow fadeInUpBig"
@@ -118,49 +124,38 @@ const Home = () => {
             </div>
             <Sidebar />
           </div>
-          <div className="world-latest-articles">
-            <div className="row">
-              <div className="col-12 col-lg-8">
-                <div className="title">
-                  <h5>Latest News</h5>
-                </div>
-                {/* Single Blog Post */}
-                {latestArticles.map((article) => (
-                  <div
-                    key={article.id}
-                    className="single-blog-post post-style-4 d-flex align-items-center wow fadeInUpBig"
-                    data-wow-delay="0.2s"
-                    onClick={onArticleClickHandler(article)}
-                  >
-                    {/* Post Thumbnail */}
+          <div className="row world-latest-articles">
+            <div className="col-12 col-lg-8">
+              <div className="title">
+                <h5>Latest News</h5>
+              </div>
+              {/* Single Blog Post */}
+              {latestArticles.map((article) => (
+                <div className="card mb-15" key={article.id} onClick={onArticleClickHandler(article)}>
+                  <div className="single-blog-post post-style-4 d-flex align-items-center">
                     <div className="post-thumbnail">
-                      <img
-                        src={article.thumbnail}
-                        alt=""
-                      />
+                      <img src={article?.thumbnail} alt="" />
                     </div>
-                    {/* Post Content */}
                     <div className="post-content">
                       <a href="#" className="headline">
-                        <h5>{article.title}</h5>
+                        <h5>{article?.title}</h5>
                       </a>
-                      <p>{article.summarization}</p>
-                      {/* Post Meta */}
+                      <p>{article?.summarization}</p>
                       <div className="post-meta">
                         <p>
                           <a href="#" className="post-author">
-                            {/* {article.user.username} */}
+                            {article?.user?.username}
                           </a>{" "}
                           on{" "}
                           <a href="#" className="post-date">
-                            {article.addedDate}
+                            {article?.addedDate}
                           </a>
                         </p>
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

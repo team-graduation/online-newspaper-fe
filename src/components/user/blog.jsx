@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ArticlesContext } from "../../context/articles.context";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import BackgroundImage from "../../assets/img/blog-img/bg2.jpg";
 import { Header } from "../common/header";
@@ -12,12 +13,13 @@ const Blog = () => {
   const { currentArticle = {}, getNewsById, setCurrentArticle } = useContext(ArticlesContext);
   const { comments = [], getCommentByNews, setComments, createComment } = useContext(CommentContext);
   const [content, setContent] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
+
     const { id: articleId } = params;
     const response = getNewsById(articleId);
     setCurrentArticle(response.data);
-
     getCommentByNews(articleId);
   }, []);
 
@@ -28,15 +30,16 @@ const Blog = () => {
     createComment(newComment);
   }
 
-  // const navigate = useNavigate();
-  // const { articles , setCurrentArticle } = useContext(ArticlesContext);
+  const onCategoryClickHandler = (categoryId) => (event) => {
+    navigate(`/category/${categoryId}`);
+  };
 
   return (
     <div>
       <Header />
       <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
       <div
-        className="hero-area height-600 bg-img background-overlay"
+        className="hero-area height-600 bg-img"
         style={{
           backgroundImage: `url(${currentArticle?.thumbnail || BackgroundImage
             })`,
@@ -45,10 +48,15 @@ const Blog = () => {
         <div className="container h-100">
           <div className="row h-100 align-items-center justify-content-center">
             <div className="col-12 col-md-8 col-lg-6">
-              <div className="single-blog-title text-center">
+              <div className="single-blog-title text-center" style={{ background:'#fff', borderRadius:'10px' }}>
                 {/* Catagory */}
-                <div className="post-cta">
-                  <a href="#">{currentArticle?.category?.categoryTitle}</a>
+                {/* <div className="post-cta">
+                  <a href="#" onClick={onCategoryClickHandler(currentArticle?.category?.categoryId)}>{currentArticle?.category?.categoryTitle}</a>
+                </div> */}
+                <div className="w3-container">
+                  <span className="w3-tag w3-spin w3-round-xxlarge w3-red">
+                  <a style={{ fontWeight:'bold', fontSize:'20px'}} onClick={onCategoryClickHandler(currentArticle?.category?.categoryId)}>{currentArticle?.category?.categoryTitle}</a>
+                  </span>
                 </div>
                 <h3>
                   {currentArticle?.title ||
@@ -60,7 +68,7 @@ const Blog = () => {
         </div>
       </div>
       {/* ********** Hero Area End ********** */}
-      <div className="main-content-wrapper section-padding-100">
+      <div className="main-content-wrapper section-padding-50">
         <div className="container">
           <div className="row justify-content-center">
             {/* ============= Post Content Area ============= */}
@@ -69,11 +77,12 @@ const Blog = () => {
                 {/* Post Meta */}
                 <div className="post-meta">
                   <p>
-                    <a href="#" className="post-author">
+                    <span>Created by</span>&nbsp;
+                    <span style={{ fontWeight: "bold", color: 'black' }}>
                       {currentArticle?.user?.username || "Unknown"}
-                    </a>{" "}
+                    </span>{" "}
                     on{" "}
-                    <a href="#" className="post-date">
+                    <a className="post-date">
                       {currentArticle?.addedDate || "Unknown"}
                     </a>
                   </p>
@@ -137,31 +146,25 @@ const Blog = () => {
                 </div>
               </div>
             </div>
-            {/* ========== Sidebar Area ========== */}
             <Sidebar />
           </div>
           <div className="row">
             {/* Start Comment */}
-            <div class="mt-5 mb-5">
-              <div>
                 <div class="d-flex flex-column col-md-8">
-
                   <div class="coment-bottom bg-white p-2 px-4">
                     {comments.map((comment) => (
                       <div
                         class="commented-section mt-2">
                         <div class="d-flex flex-row align-items-center commented-user">
                           <h4 style={{ fontWeight: "bold" }}>{comment.user.username}</h4></div>
-                        <div class="comment-text-sm"><span>{comment.content}</span></div>
+                        <div><span>{comment.content}</span></div>
                       </div>
                     ))}
                     <div class="d-flex flex-row add-comment-section mt-4 mb-4">
-                      <input type="text" className="form-control mr-3" placeholder="Add comment" />
-                      <button class="btn btn-primary" type="button">Comment</button></div>
+                      <input type="text" className="form-control mr-3" style={{ width:'960px' }} placeholder="Add comment" />
+                      <button class="btn btn-primary">Comment</button></div>
                   </div>
-                </div>
-              </div>
-            </div>
+                </div>   
             {/* End Comment */}
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ArticlesContext } from "../../context/articles.context";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../common/header";
@@ -8,32 +8,56 @@ import "./card.css"
 
 const ListNewsOfUser = () => {
     const navigate = useNavigate();
+    const [pendingDeleteArticle, setPendingDeleteArticle] = useState({});
+    const [isDeletingArticle, setIsDeleteArticle] = useState(false);
     const { setCurrentArticle, articlesOfUser = [], getNewsByUser, deleteNews } = useContext(ArticlesContext);
     const onArticleClickHandler = (article) => (event) => {
         navigate(`/news/${article.newsId}`);
     };
 
-    const onDeleteNewsClickHandler = (article) => (event) => {
-        deleteNews(article.newsId);
-    }
+    // const onDeleteNewsClickHandler = (article) => (event) => {
+    //     deleteNews(article.newsId);
+    // }
 
     const onEditArticleClickHandler = (article) => (event) => {
         setCurrentArticle(article);
         navigate(`/admin/news/edit/${article.newsId}`);
     };
 
+    const onDeleteNewsClickHandler = (article) => (event) => {
+        setIsDeleteArticle(true);
+        setPendingDeleteArticle(article);
+    }
+
+    const onConfirmDeleteHandler = (e) => {
+        e.preventDefault();
+        deleteNews(pendingDeleteArticle.newsId);
+        setIsDeleteArticle(false);
+    }
+
+    const onCancelDeleteHandler = (e) => {
+        e.preventDefault();
+        setIsDeleteArticle(false);
+        setPendingDeleteArticle({});
+    }
+
     useEffect(() => {
         getNewsByUser();
     }, []);
     return (
         <div>
+            <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster&effect=shadow-multiple" />
             <Header />
             <div
                 className="hero-area height-400 bg-img background-overlay"
                 style={{ backgroundImage: "url(img/blog-img/bg3.jpg)" }}
             />
+            <div class="w3-container w3-lobster" style={{ marginTop:10, textAlign:'center' }}>
+                <p class="w3-xxxlarge font-effect-shadow-multiple">My newspaper</p>
+            </div>
 
-            <div className="main-content-wrapper section-padding-100">
+            <div className="main-content-wrapper section-padding-50">
                 <div className="container">
                     <div className="row">
                         {articlesOfUser.map((article) => (
@@ -70,7 +94,7 @@ const ListNewsOfUser = () => {
                                                 )}
                                             </span>
                                         </div>
-                                        <div class="row" style={{ background: "#97CBC8", borderRadius: "10px "}}>
+                                        <div class="row" style={{ background: "#97CBC8", borderRadius: "10px " }}>
                                             <div className="col-12 col-md-4">
                                                 <a onClick={onArticleClickHandler(article)} data-toggle="modal"><i class="fa fa-eye" style={{ fontSize: '23px', color: 'black' }}></i></a>
                                             </div>
@@ -88,6 +112,24 @@ const ListNewsOfUser = () => {
                         ))}
                     </div>
                 </div>
+
+
+                {/* Modal delete */}
+                {isDeletingArticle &&
+                    <div style={{ display: "block" }} id="myModal" class="modal">
+                        <div class="modal-dialog modal-confirm">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <p>Do you really want to delete these records? This process cannot be undone.</p>
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button onClick={onCancelDeleteHandler} type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button onClick={onConfirmDeleteHandler} type="button" class="btn btn-danger">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
             <Footer />
         </div>
