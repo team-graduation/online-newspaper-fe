@@ -8,6 +8,10 @@ class CategoryService {
         return axios.get(CATEGORY_API_BASE_URL);
     }
 
+    getCategoryById(categoryId){
+        return axios.get(CATEGORY_API_BASE_URL + categoryId);
+    }
+
     createCategory(category){
         return axios.post(CATEGORY_API_BASE_URL, category);
     }

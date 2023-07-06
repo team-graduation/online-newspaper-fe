@@ -72,7 +72,8 @@ const NewsEdittingPage = () => {
         newArticle.append('thumbnail', thumbnail);
 
         updateNews(articleId, newArticle);
-        navigate(`/news/${articleId}`);
+        // navigate(`/news/${articleId}`);
+        navigate(`/user/news`);
     }
 
     return (
@@ -84,11 +85,6 @@ const NewsEdittingPage = () => {
                 <div className="label-area content--space-between">
                     <div class="w3-container w3-lobster">
                         <p class="w3-xxxlarge font-effect-shadow-multiple">Newspaper</p>
-                    </div>
-                    <div className="load-more-btn text-center">
-                        <div className="edit-newspaper__submit" onClick={(e) => isEditting ? onEditNewsHandler() : onSubmitNewsHandler()}>
-                            {isEditting ? 'UPDATE' : 'CREATE'}
-                        </div>
                     </div>
                 </div>
                 <div className="label-area padding-top-100">

@@ -12,6 +12,12 @@ const dropdownItemsAdmin = [
 export const Header = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
+  // const { token, logout } = useContext(UserContext);
+
+  // const handleLogout = () => {
+  //   logout();
+  // };
+
   const dropdownItems = [
     {
       title: "Profile", onClick: () => {
@@ -29,6 +35,11 @@ export const Header = () => {
       }
     },
     { title: "Logout", onClick: () => { 
+      // {token ? (
+      //   <button onClick={handleLogout}>Logout</button>
+      // ) : (
+      //   <p>Người dùng chưa đăng nhập</p>
+      // )}
       navigate('/login');
     } },
   ];
@@ -44,7 +55,7 @@ export const Header = () => {
                 href="#"
                 onClick={(e) => navigate("/")}
               >
-                <img src="../../assets/img/core-img/logo.png" alt="Logo" />
+                <img src="../../../assets/img/core-img/logo.png" alt="Logo" />
               </div>
               <button
                 className="navbar-toggler"

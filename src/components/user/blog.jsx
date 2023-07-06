@@ -7,6 +7,8 @@ import { Header } from "../common/header";
 import { Footer } from "../common/footer";
 import { Sidebar } from "../common/sidebar";
 import { CommentContext } from "context/comment.context";
+import axios from "axios";
+const COMMENT_API_BASE_URL = "http://localhost:8080/api/auth";
 
 const Blog = () => {
   const params = useParams();
@@ -14,6 +16,7 @@ const Blog = () => {
   const { comments = [], getCommentByNews, setComments, createComment } = useContext(CommentContext);
   const [content, setContent] = useState("");
   const navigate = useNavigate();
+  const { id: articleId } = params;
 
   useEffect(() => {
     const { id: articleId } = params;
@@ -22,11 +25,9 @@ const Blog = () => {
     getCommentByNews(articleId);
   }, []);
 
-  // const onSubmitCommentHandler = () => {
-  //   let newComment = new FormData();
-  //   newComment.append('content', content);
-  //   createComment(articleId, newComment);
-  // }
+  const onSubmitCommentHandler = async (articleId) => {
+    
+  }
 
   const onCategoryClickHandler = (categoryId) => (event) => {
     navigate(`/category/${categoryId}`);
@@ -143,7 +144,7 @@ const Blog = () => {
                 ))}
                 <div class="d-flex flex-row add-comment-section mt-4 mb-4">
                   <input type="text" className="form-control mr-3" style={{ width: '960px' }} placeholder="Add comment" content={content} />
-                  <button class="btn btn-primary">Comment</button></div>
+                  <button class="btn btn-primary" onClick={() => onSubmitCommentHandler()}>Comment</button></div>
               </div>
             </div>
             {/* End Comment */}

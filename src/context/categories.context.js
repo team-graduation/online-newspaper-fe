@@ -6,6 +6,8 @@ const CategoryContext = createContext("");
 const CategoryContextProvider = ({ children }) => {
 
   const [allCategories, setAllCategiries] = useState([]);
+  const [currentCategory, setCurrentCategory] = useState({});
+
 
   const getAllCategory = async () => {
     try {
@@ -18,6 +20,15 @@ const CategoryContextProvider = ({ children }) => {
 
   }
 
+  const getCategoryById = async () => {
+    try {
+      const response = await CategoryService.getCategoryById();
+      setCurrentCategory(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     getAllCategory();
   }, [])
@@ -27,6 +38,9 @@ const CategoryContextProvider = ({ children }) => {
       value={{
         allCategories,
         setAllCategiries,
+        currentCategory, 
+        setCurrentCategory,
+        getCategoryById
       }}
     >
       {children}

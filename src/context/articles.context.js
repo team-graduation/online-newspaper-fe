@@ -92,7 +92,7 @@ const ArticlesContextProvider = ({ children }) => {
   const updateNews = async (newsId, news) => {
     try {
       const response = await NewsService.updateNews(newsId, news);
-      getNewsById(newsId);
+      getNewsByUser();
     } catch (error) {
       console.log(error)
     }
@@ -120,6 +120,7 @@ const ArticlesContextProvider = ({ children }) => {
     try {
       const response = await NewsService.acceptNews(newsId);
       getAllNewsByAdmin();
+      getAllNews();
     } catch (error) {
       console.log(error);
     }

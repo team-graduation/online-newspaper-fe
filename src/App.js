@@ -15,7 +15,6 @@ import AddNews from "./components/admin/news/News.edit"
 import Profile from "./components/user/profile"
 import { CategoryContext, CategoryContextProvider } from "context/categories.context";
 import { CommentContextProvider } from "context/comment.context";
-import Test from "./components/admin/news/test"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -42,9 +41,6 @@ function App() {
               <Route path="/admin/news" exact element={<NewsAdmin></NewsAdmin>} />
               <Route path="/news/add" exact element={<AddNews></AddNews>} />
               <Route path="admin/news/edit/:id" exact element={<AddNews></AddNews>} />
-              <Route path="test" exact element={<Test></Test>} />
-
-
 
               {/* Admin */}
               {/* <Route path="/admin/home" exact element={<AdHomemin />} /> */}

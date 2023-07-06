@@ -7,6 +7,7 @@ const UserContext = createContext("");
 const UserContextProvider = ({ children }) => {
     const [user, setUser] = useState(undefined);
     const [allUser, setAllUser] = useState([]);
+    const [token, setToken] = useState(null);
 
     useEffect(() => {
         const user = localStorage.getItem('user');
@@ -16,6 +17,10 @@ const UserContextProvider = ({ children }) => {
     async function register(credential) {
         const data = await register(credential);
     }
+
+    const logout = () => {
+        setToken(null);
+    };
 
     const getAllUser = async () => {
         try {
@@ -58,7 +63,9 @@ const UserContextProvider = ({ children }) => {
                 allUser,
                 setAllUser,
                 deleteUser,
-                getProfile
+                getProfile,
+                token, 
+                logout
             }}
         >
             {children}

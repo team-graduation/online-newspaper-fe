@@ -7,6 +7,9 @@ import { Header } from "../common/header";
 import { Footer } from "../common/footer";
 import { Sidebar } from "../common/sidebar";
 import { CategoryContext } from "../../context/categories.context";
+import Video1 from '../../assets/img/blog-img/news.mp4';
+import Video2 from '../../assets/img/blog-img/covid.mp4';
+import Video3 from '../../assets/img/blog-img/business.mp4';
 
 const Home = () => {
 
@@ -33,7 +36,19 @@ const Home = () => {
       <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster&effect=shadow-multiple" />
       <Header />
-      <div className="main-content-wrapper section-padding-100">
+      <div className="main-content-wrapper section-padding-40">
+        <div className="row height-400">
+          <video autoPlay muted loop className="col-12 col-md-4 height-400">
+            <source src={Video1} type="video/mp4" />
+          </video>
+          <video autoPlay muted loop className="col-12 col-md-4 height-400">
+            <source src={Video2} type="video/mp4" />
+          </video>
+          <video autoPlay muted loop className="col-12 col-md-4 height-400">
+            <source src={Video3} type="video/mp4" />
+          </video>
+        </div>
+
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-12 col-lg-8">
@@ -124,7 +139,7 @@ const Home = () => {
             </div>
             <Sidebar />
           </div>
-          <div className="row world-latest-articles">
+          <div className="row world-latest-articles" style={{ marginBottom:'100px' }}>
             <div className="col-12 col-lg-8">
               <div className="title">
                 <h5>Latest News</h5>

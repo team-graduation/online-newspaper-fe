@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { ArticlesContext } from "../../context/articles.context";
+import { CategoryContext } from "../../context/categories.context";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../common/header";
@@ -9,20 +10,31 @@ import "./card.css"
 
 const Category = () => {
   const { filteredArticles = [], getNewsByCategory, setFilteredArticles } = useContext(ArticlesContext);
+  const { currentCategory = {}, setCurrentCategory, getCategoryById } = useContext(CategoryContext);
+
   const params = useParams();
   const navigate = useNavigate();
 
   const onArticleClickHandler = (article) => (event) => {
     navigate(`/news/${article.newsId}`);
   };
+
   const { id: categoryId } = params;
 
+
   useEffect(() => {
-    const { id: categoryId } = params;
+    // const { id: categoryId } = params;
 
     const response = getNewsByCategory(categoryId);
     setFilteredArticles(response.data);
-    console.log(categoryId);
+  }, []);
+
+  useEffect(() => {
+    // const { id: categoryId } = params;
+
+    const responseCat = getCategoryById(categoryId);
+    setCurrentCategory(responseCat.data);
+    console.log(responseCat);
   }, []);
 
   return (
@@ -37,7 +49,8 @@ const Category = () => {
           <div className="row justify-content-center">
             <div className="col-12 col-lg-8">
               <ul className="nav nav-tabs" id="myTab" role="tablist">
-                <li className="title capitalize">{filteredArticles?.title}</li>
+                {/* <li className="title capitalize">{filteredArticles?.title}</li> */}
+                <li className="title capitalize">{currentCategory?.categoryTitle}</li>
               </ul>
               <div className="tab-content" id="myTabContent">
                 {filteredArticles.map((article) => (

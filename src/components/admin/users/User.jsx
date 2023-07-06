@@ -24,7 +24,7 @@ const User = () => {
                 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-                <div className="container">
+                <div className="container" style={{ marginBottom: '100px' }}>
                     <div className="table-wrapper">
                         <div className="table-title">
                             <div className="row">
@@ -59,7 +59,7 @@ const User = () => {
                                 ))}
                             </tbody>
                         </table>
-                        <div className="clearfix">
+                        {/* <div className="clearfix">
                             <div className="hint-text">Showing <b>5</b> out of <b>100</b> entries</div>
                             <ul className="pagination">
                                 <li className="page-item disabled"><a href="#">Previous</a></li>
@@ -68,7 +68,7 @@ const User = () => {
                                 <li className="page-item"><a href="#" className="page-link">3</a></li>
                                 <li className="page-item"><a href="#" className="page-link">Next</a></li>
                             </ul>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             

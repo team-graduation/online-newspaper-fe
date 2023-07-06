@@ -16,6 +16,7 @@ class CommentService {
             method: 'post',
             url: COMMENT_API_BASE_URL + '/news/' + newsId + '/comments',
             data: comments,
+            // { id : id, content: content, user: id},
             headers: {
                 Authorization: 'Bearer ' + this.token,
                 'Content-Type': 'application/json',
